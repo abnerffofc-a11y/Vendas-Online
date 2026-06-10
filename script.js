@@ -199,30 +199,45 @@ const num=(a.whatsapp||"").replace(/\D/g,"");
 div.innerHTML=`
 ${a.foto?`<img src="${a.foto}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px">`:``}
 <h3>${a.nome}</h3>
-<p>📂 ${a.categoria || "Sem categoria"}</p>
-<p>${a.descricao||""}</p>
-<p>📍 ${a.cidade}</p>
-<p><b>R$ ${a.preco}</b></p>
 
-<a href="https://wa.me/${num}" target="_blank">WhatsApp</a>
+<p>📂 ${a.categoria || "Sem categoria"}</p>
+
+<p>${a.descricao || ""}</p>
+
+<p>📍 ${a.cidade}</p>
+
+<p class="preco">
+R$ ${a.preco}
+</p>
+
+<a
+href="https://wa.me/${num}"
+target="_blank"
+class="btn-whatsapp">
+📱 Chamar no WhatsApp
+</a>
 
 <br><br>
 
 ${userLogado?.uid===a.userId?`
 
-<button onclick="editarAnuncio('${a.id}',
+<button
+class="btn-editar"
+onclick="editarAnuncio(
+'${a.id}',
 '${a.nome}',
 '${a.preco}',
 '${a.cidade}',
 '${a.whatsapp}',
-'${a.descricao || ""}')"
-style="background:orange;color:white;padding:5px;margin-right:5px;border:none;border-radius:5px;">
-Editar
+'${a.descricao || ""}'
+)">
+✏️ Editar
 </button>
 
-<button onclick="del('${a.id}')"
-style="background:red;color:#fff;padding:5px;border:none;border-radius:5px;">
-Excluir
+<button
+class="btn-excluir"
+onclick="del('${a.id}')">
+🗑 Excluir
 </button>
 
 `:``}
