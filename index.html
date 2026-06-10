@@ -85,63 +85,115 @@ Enviar Anúncio
     <span>R$ 14,90</span>
 </div>
 
-<div class="produto">
-    <h3>⚡ Combo Habilidades Vencedoras</h3>
-    <p>Combinações de habilidades para vários estilos de jogo.</p>
-    <span>R$ 12,90</span>
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A&A Marketplace</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<div class="container">
+<h1>A&A Marketplace</h1>
+
+<nav>
+<a href="#inicio">Início</a>
+<a href="#categorias">Categorias</a>
+<a href="#anuncios">Anúncios</a>
+<a href="#anunciar">Anunciar</a>
+<a href="#sobre">Sobre</a>
+<a href="#contato">Contato</a>
+</nav>
+
 </div>
+</header>
 
-<div class="produto">
-    <h3>🏆 Manual Mestre da Ranqueada</h3>
-    <p>Estratégias para subir de patente mais rápido.</p>
-    <span>R$ 19,90</span>
-</div>
-    <section id="gratis">
-    <h2>🎁 Conteúdo Gratuito</h2>
-
-    <div class="produto">
-        <h3>🎯 Sensibilidade Starter</h3>
-        <p>Configuração gratuita para melhorar sua precisão.</p>
-        <button>Baixar Grátis</button>
-    </div>
-
-    <div class="produto">
-        <h3>🔥 Mini Guia de Capa</h3>
-        <p>5 dicas rápidas para aumentar sua taxa de headshots.</p>
-        <button>Receber Agora</button>
-    </div>
-
-    <div class="produto">
-        <h3>⚡ HUD Básica para 2 Dedos</h3>
-        <p>Layout simples para jogadores iniciantes.</p>
-        <button>Baixar HUD</button>
-    </div>
-
-    <div class="produto">
-        <h3>🏆 Checklist da Ranqueada</h3>
-        <p>Prepare-se para cada partida como um profissional.</p>
-        <button>Download Gratuito</button>
-    </div>
-    </section>
-
-<div class="produto">
-    <h3>📱 FPS Boost Gamer</h3>
-    <p>Otimização para melhorar desempenho e FPS.</p>
-    <span>R$ 9,90</span>
-</div>
-
-<div class="produto">
-    <h3>👑 Pacote Lenda Suprema</h3>
-    <p>Acesso ao conteúdo completo da loja.</p>
-    <span>R$ 49,90</span>
-</div>
+<section id="inicio" class="hero">
+<h2>Compre e Venda na Sua Cidade</h2>
+<p>Anuncie produtos, serviços, veículos, imóveis e muito mais.</p>
+<button onclick="document.getElementById('anuncios').scrollIntoView();">
+Ver Anúncios
+</button>
 </section>
 
-<section id="sobre" class="sobre"><div class="container"><h2>Sobre</h2><p>Loja especializada em produtos digitais.</p></div></section>
-<section id="contato" class="container"><h2>Contato</h2><p>WhatsApp: (00) 00000-0000</p></section>
+<section id="categorias" class="container">
+<h2>📂 Categorias</h2>
 
-<footer><p>© 2026 A&A Digital Store</p></footer>
+<div class="produto">📱 Celulares</div>
+<div class="produto">🚗 Veículos</div>
+<div class="produto">🏠 Imóveis</div>
+<div class="produto">🎮 Games</div>
+<div class="produto">👕 Roupas</div>
+<div class="produto">🛠️ Serviços</div>
+</section>
+
+<section id="anuncios" class="container">
+<h2>🛒 Anúncios Recentes</h2>
+
+<div class="produto">
+<h3>iPhone 13</h3>
+<p>128GB • Excelente estado</p>
+<p>📍 Centro</p>
+<p><strong>R$ 2.500</strong></p>
+<a href="#">WhatsApp</a>
+</div>
+
+<div class="produto">
+<h3>Honda CG 160</h3>
+<p>Ano 2023 • Conservada</p>
+<p>📍 Bairro Jardim</p>
+<p><strong>R$ 14.000</strong></p>
+<a href="#">WhatsApp</a>
+</div>
+
+</section>
+
+<section id="anunciar" class="container">
+<h2>📢 Publicar Anúncio</h2>
+
+<form>
+
+<input type="text" placeholder="Nome do Produto" required>
+
+<input type="number" placeholder="Preço" required>
+
+<input type="text" placeholder="Cidade ou Bairro" required>
+
+<input type="tel" placeholder="WhatsApp" required>
+
+<textarea placeholder="Descrição do produto"></textarea>
+
+<button type="submit">
+Publicar Anúncio
+</button>
+
+</form>
+</section>
+
+<section id="sobre" class="container">
+<h2>Sobre</h2>
+<p>
+O A&A Marketplace conecta compradores e vendedores da região,
+permitindo anunciar produtos e serviços de forma simples.
+</p>
+</section>
+
+<section id="contato" class="container">
+<h2>Contato</h2>
+<p>WhatsApp: (00) 00000-0000</p>
+</section>
+
+<footer>
+<p>© 2026 A&A Marketplace</p>
+</footer>
+
 <script src="script.js"></script>
+
 </body>
 </html>
-(commit).
+
