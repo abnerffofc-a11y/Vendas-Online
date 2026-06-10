@@ -139,6 +139,9 @@ const nome = (buscaNome.value || "").toLowerCase();
 const cidade = (buscaCidade.value || "").toLowerCase();
 const categoria = (buscaCategoria.value || "");
 
+const precoMin = Number(precoMin.value) || 0;
+const precoMax = Number(precoMax.value) || Infinity;
+
 lista.innerHTML = "";
 
 todosAnuncios
@@ -156,6 +159,14 @@ a.cidade.toLowerCase().includes(cidade))
 
 (!categoria ||
 a.categoria === categoria)
+
+&&
+
+(Number(a.preco) >= precoMin)
+
+&&
+
+(Number(a.preco) <= precoMax)
 
 )
 .forEach(a => render(a, lista));
