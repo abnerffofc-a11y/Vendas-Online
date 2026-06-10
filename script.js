@@ -24,7 +24,7 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
 
-/* CONFIG FIREBASE */
+/* FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
@@ -40,6 +40,7 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 
 let userLogado = null;
+let todosAnuncios = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -53,20 +54,13 @@ carregarAnuncios();
 /* LOGIN STATUS */
 onAuthStateChanged(auth, (user) => {
     userLogado = user;
-
-    status.innerText = user
-        ? "Logado como: " + user.email
-        : "Você não está logado";
+    status.innerText = user ? "Logado: " + user.email : "Você não está logado";
 });
 
 /* AUTH */
-window.cadastrar = (e,s) =>
-createUserWithEmailAndPassword(auth,e,s);
-
-window.entrar = (e,s) =>
-signInWithEmailAndPassword(auth,e,s);
-
-window.sair = () => signOut(auth);
+window.cadastrar = (e,s)=>createUserWithEmailAndPassword(auth,e,s);
+window.entrar = (e,s)=>signInWithEmailAndPassword(auth,e,s);
+window.sair = ()=>signOut(auth);
 
 /* UPLOAD */
 async function uploadImagem(file){
@@ -75,10 +69,11 @@ await uploadBytes(r,file);
 return await getDownloadURL(r);
 }
 
-/* CRIAR */
+/* CRIAR ANÚNCIO */
 form.addEventListener("submit", async e=>{
 e.preventDefault();
-if(!userLogado) return alert("Login necessário");
+
+if(!userLogado) return alert("Faça login");
 
 let foto = "";
 const file = document.getElementById("foto").files[0];
@@ -101,35 +96,58 @@ form.reset();
 location.reload();
 });
 
-/* CARREGAR TODOS */
+/* CARREGAR */
 async function carregarAnuncios(){
 const snap = await getDocs(collection(db,"anuncios"));
+
 lista.innerHTML="";
+todosAnuncios=[];
+
 snap.forEach(d=>{
-render(d.id,d.data(),lista);
+const a = {id:d.id,...d.data()};
+todosAnuncios.push(a);
+render(a,lista);
 });
 }
 
+/* FILTRO */
+window.filtrarAnuncios = function(){
+
+const nome = (buscaNome.value||"").toLowerCase();
+const cidade = (buscaCidade.value||"").toLowerCase();
+
+lista.innerHTML="";
+
+todosAnuncios
+.filter(a =>
+(!nome || a.nome.toLowerCase().includes(nome)) &&
+(!cidade || a.cidade.toLowerCase().includes(cidade))
+)
+.forEach(a=>render(a,lista));
+};
+
 /* MEUS ANÚNCIOS */
 window.carregarMeusAnuncios = async function(){
+
 const snap = await getDocs(collection(db,"anuncios"));
+
 listaMeus.innerHTML="";
 
 snap.forEach(d=>{
-const a = d.data();
+const a = {id:d.id,...d.data()};
 if(a.userId===userLogado?.uid){
-render(d.id,a,listaMeus);
+render(a,listaMeus,true);
 }
 });
 };
 
 /* RENDER */
-function render(id,a,container){
+function render(a,container,meus=false){
 
 const div = document.createElement("div");
 div.className="produto";
 
-const num = (a.whatsapp||"").replace(/\D/g,"");
+const num=(a.whatsapp||"").replace(/\D/g,"");
 
 div.innerHTML=`
 ${a.foto?`<img src="${a.foto}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px">`:``}
@@ -137,10 +155,13 @@ ${a.foto?`<img src="${a.foto}" style="width:100%;max-height:200px;object-fit:cov
 <p>${a.descricao||""}</p>
 <p>📍 ${a.cidade}</p>
 <p><b>R$ ${a.preco}</b></p>
+
 <a href="https://wa.me/${num}" target="_blank">WhatsApp</a>
+
 <br><br>
+
 ${userLogado?.uid===a.userId?`
-<button onclick="del('${id}')" style="background:red;color:white;border:none;padding:5px">Excluir</button>
+<button onclick="del('${a.id}')" style="background:red;color:#fff;padding:5px">Excluir</button>
 `:``}
 `;
 
