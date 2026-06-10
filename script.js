@@ -6,7 +6,8 @@ import {
   addDoc,
   getDocs,
   deleteDoc,
-  doc
+  doc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 import {
@@ -181,7 +182,22 @@ ${a.foto?`<img src="${a.foto}" style="width:100%;max-height:200px;object-fit:cov
 <br><br>
 
 ${userLogado?.uid===a.userId?`
-<button onclick="del('${a.id}')" style="background:red;color:#fff;padding:5px">Excluir</button>
+
+<button onclick="editarAnuncio('${a.id}',
+'${a.nome}',
+'${a.preco}',
+'${a.cidade}',
+'${a.whatsapp}',
+'${a.descricao || ""}')"
+style="background:orange;color:white;padding:5px;margin-right:5px;border:none;border-radius:5px;">
+Editar
+</button>
+
+<button onclick="del('${a.id}')"
+style="background:red;color:#fff;padding:5px;border:none;border-radius:5px;">
+Excluir
+</button>
+
 `:``}
 `;
 
@@ -194,4 +210,47 @@ await deleteDoc(doc(db,"anuncios",id));
 location.reload();
 };
 
+  window.editarAnuncio = async (
+id,
+nomeAtual,
+precoAtual,
+cidadeAtual,
+whatsappAtual,
+descricaoAtual
+) => {
+
+const novoNome =
+prompt("Nome do produto:", nomeAtual);
+
+if(!novoNome) return;
+
+const novoPreco =
+prompt("Preço:", precoAtual);
+
+const novaCidade =
+prompt("Cidade:", cidadeAtual);
+
+const novoWhatsapp =
+prompt("WhatsApp:", whatsappAtual);
+
+const novaDescricao =
+prompt("Descrição:", descricaoAtual);
+
+await updateDoc(
+doc(db,"anuncios",id),
+{
+nome: novoNome,
+preco: novoPreco,
+cidade: novaCidade,
+whatsapp: novoWhatsapp,
+descricao: novaDescricao
+}
+);
+
+alert("Anúncio atualizado!");
+
+location.reload();
+
+};
+  
 });
