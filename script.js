@@ -7,7 +7,8 @@ import {
   getDocs,
   deleteDoc,
   doc,
-  updateDoc
+  query,
+  where
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 import {
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const form = document.getElementById("form-anuncio");
 const lista = document.getElementById("lista-anuncios");
 const listaMeus = document.getElementById("lista-meus-anuncios");
+const listaFavoritos = document.getElementById("lista-favoritos");
 const status = document.getElementById("status-login");
 
 carregarAnuncios();
@@ -250,6 +252,14 @@ class="btn-whatsapp">
 
 <br><br>
 
+<button
+class="btn-favorito"
+onclick="favoritar('${a.id}')">
+❤️ Favoritar
+</button>
+
+<br><br>
+
 ${userLogado?.uid===a.userId?`
 
 <button
@@ -278,6 +288,37 @@ container.appendChild(div);
 }
 
 /* DELETE */
+window.favoritar = async function(anuncioId){
+
+if(!userLogado){
+alert("Faça login");
+return;
+}
+
+const favoritosRef = collection(db,"favoritos");
+
+const q = query(
+favoritosRef,
+where("userId","==",userLogado.uid),
+where("anuncioId","==",anuncioId)
+);
+
+const existente = await getDocs(q);
+
+if(!existente.empty){
+alert("❤️ Este anúncio já está nos favoritos");
+return;
+}
+
+await addDoc(collection(db,"favoritos"),{
+anuncioId: anuncioId,
+userId: userLogado.uid
+});
+
+alert("❤️ Adicionado aos favoritos");
+
+};
+  
 window.del = async id=>{
 await deleteDoc(doc(db,"anuncios",id));
 location.reload();
