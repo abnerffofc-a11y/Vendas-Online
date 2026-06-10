@@ -1,6 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 
-/* FIRESTORE */
 import {
   getFirestore,
   collection,
@@ -10,7 +9,6 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-/* AUTH */
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -19,7 +17,6 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-/* STORAGE */
 import {
   getStorage,
   ref,
@@ -27,7 +24,7 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
 
-/* 🔥 CONFIG FIREBASE */
+/* CONFIG FIREBASE */
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
@@ -44,171 +41,116 @@ const storage = getStorage(app);
 
 let userLogado = null;
 
-/* =========================
-   ELEMENTOS
-========================= */
 document.addEventListener("DOMContentLoaded", () => {
 
 const form = document.getElementById("form-anuncio");
-const container = document.getElementById("lista-anuncios");
-const statusLogin = document.getElementById("status-login");
+const lista = document.getElementById("lista-anuncios");
+const listaMeus = document.getElementById("lista-meus-anuncios");
+const status = document.getElementById("status-login");
 
 carregarAnuncios();
 
-/* =========================
-   LOGIN STATE
-========================= */
+/* LOGIN STATUS */
 onAuthStateChanged(auth, (user) => {
     userLogado = user;
 
-    if (user) {
-        statusLogin.innerText = "Logado como: " + user.email;
-    } else {
-        statusLogin.innerText = "Você não está logado";
-    }
+    status.innerText = user
+        ? "Logado como: " + user.email
+        : "Você não está logado";
 });
 
-/* =========================
-   AUTH FUNCTIONS
-========================= */
-window.cadastrar = function (email, senha) {
-    createUserWithEmailAndPassword(auth, email, senha)
-        .then(() => alert("Conta criada!"))
-        .catch((e) => alert(e.message));
-};
+/* AUTH */
+window.cadastrar = (e,s) =>
+createUserWithEmailAndPassword(auth,e,s);
 
-window.entrar = function (email, senha) {
-    signInWithEmailAndPassword(auth, email, senha)
-        .then(() => alert("Login realizado!"))
-        .catch((e) => alert(e.message));
-};
+window.entrar = (e,s) =>
+signInWithEmailAndPassword(auth,e,s);
 
-window.sair = function () {
-    signOut(auth);
-};
+window.sair = () => signOut(auth);
 
-/* =========================
-   UPLOAD IMAGEM STORAGE
-========================= */
-async function uploadImagem(file) {
-    const imageRef = ref(storage, "anuncios/" + Date.now() + "_" + file.name);
-
-    await uploadBytes(imageRef, file);
-
-    const url = await getDownloadURL(imageRef);
-
-    return url;
+/* UPLOAD */
+async function uploadImagem(file){
+const r = ref(storage,"anuncios/"+Date.now()+"_"+file.name);
+await uploadBytes(r,file);
+return await getDownloadURL(r);
 }
 
-/* =========================
-   CRIAR ANÚNCIO
-========================= */
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+/* CRIAR */
+form.addEventListener("submit", async e=>{
+e.preventDefault();
+if(!userLogado) return alert("Login necessário");
 
-    if (!userLogado) {
-        alert("Você precisa estar logado para anunciar!");
-        return;
-    }
+let foto = "";
+const file = document.getElementById("foto").files[0];
 
-    const file = document.getElementById("foto").files[0];
+if(file) foto = await uploadImagem(file);
 
-    let fotoURL = "";
-
-    if (file) {
-        fotoURL = await uploadImagem(file);
-    }
-
-    const anuncio = {
-        nome: document.getElementById("nome").value,
-        preco: document.getElementById("preco").value,
-        cidade: document.getElementById("cidade").value,
-        whatsapp: document.getElementById("whatsapp").value,
-        descricao: document.getElementById("descricao").value,
-        foto: fotoURL,
-        criadoEm: Date.now(),
-        userId: userLogado.uid,
-        userEmail: userLogado.email
-    };
-
-    await addDoc(collection(db, "anuncios"), anuncio);
-
-    form.reset();
-    location.reload();
+await addDoc(collection(db,"anuncios"),{
+nome:nome.value,
+preco:preco.value,
+cidade:cidade.value,
+whatsapp:whatsapp.value,
+descricao:descricao.value,
+foto,
+userId:userLogado.uid,
+userEmail:userLogado.email,
+criadoEm:Date.now()
 });
 
-/* =========================
-   CARREGAR ANÚNCIOS
-========================= */
-async function carregarAnuncios() {
-    const querySnapshot = await getDocs(collection(db, "anuncios"));
+form.reset();
+location.reload();
+});
 
-    container.innerHTML = "";
-
-    querySnapshot.forEach((docItem) => {
-        adicionarNaTela({
-            id: docItem.id,
-            ...docItem.data()
-        });
-    });
+/* CARREGAR TODOS */
+async function carregarAnuncios(){
+const snap = await getDocs(collection(db,"anuncios"));
+lista.innerHTML="";
+snap.forEach(d=>{
+render(d.id,d.data(),lista);
+});
 }
 
-/* =========================
-   MOSTRAR NA TELA
-========================= */
-function adicionarNaTela(anuncio) {
+/* MEUS ANÚNCIOS */
+window.carregarMeusAnuncios = async function(){
+const snap = await getDocs(collection(db,"anuncios"));
+listaMeus.innerHTML="";
 
-    const card = document.createElement("div");
-    card.className = "produto";
+snap.forEach(d=>{
+const a = d.data();
+if(a.userId===userLogado?.uid){
+render(d.id,a,listaMeus);
+}
+});
+};
 
-    const numero = (anuncio.whatsapp || "").replace(/\D/g, "");
+/* RENDER */
+function render(id,a,container){
 
-    card.innerHTML = `
-        ${anuncio.foto ? `
-            <img src="${anuncio.foto}" 
-            style="width:100%;max-height:250px;object-fit:cover;border-radius:10px;margin-bottom:10px;">
-        ` : ""}
+const div = document.createElement("div");
+div.className="produto";
 
-        <h3>${anuncio.nome}</h3>
-        <p>${anuncio.descricao || ""}</p>
-        <p>📍 ${anuncio.cidade}</p>
-        <p><strong>R$ ${anuncio.preco}</strong></p>
+const num = (a.whatsapp||"").replace(/\D/g,"");
 
-        <small>👤 ${anuncio.userEmail || "Anônimo"}</small>
+div.innerHTML=`
+${a.foto?`<img src="${a.foto}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px">`:``}
+<h3>${a.nome}</h3>
+<p>${a.descricao||""}</p>
+<p>📍 ${a.cidade}</p>
+<p><b>R$ ${a.preco}</b></p>
+<a href="https://wa.me/${num}" target="_blank">WhatsApp</a>
+<br><br>
+${userLogado?.uid===a.userId?`
+<button onclick="del('${id}')" style="background:red;color:white;border:none;padding:5px">Excluir</button>
+`:``}
+`;
 
-        <br><br>
-
-        <a href="https://wa.me/${numero}" target="_blank">
-            WhatsApp
-        </a>
-
-        <br><br>
-
-        ${
-            userLogado && userLogado.uid === anuncio.userId
-            ? `<button onclick="excluirAnuncio('${anuncio.id}')" style="
-                background:red;
-                color:white;
-                border:none;
-                padding:5px 10px;
-                border-radius:5px;
-                cursor:pointer;
-            ">
-                Excluir
-            </button>`
-            : ""
-        }
-    `;
-
-    container.appendChild(card);
+container.appendChild(div);
 }
 
-/* =========================
-   EXCLUIR ANÚNCIO
-========================= */
-window.excluirAnuncio = async function (id) {
-    await deleteDoc(doc(db, "anuncios", id));
-    location.reload();
+/* DELETE */
+window.del = async id=>{
+await deleteDoc(doc(db,"anuncios",id));
+location.reload();
 };
 
 });
