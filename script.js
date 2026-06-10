@@ -201,6 +201,13 @@ const num=(a.whatsapp||"").replace(/\D/g,"");
 
 div.innerHTML=`
 ${a.foto?`<img src="${a.foto}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px">`:``}
+
+${a.destaque ? `
+<div class="badge-destaque">
+⭐ ANÚNCIO EM DESTAQUE
+</div>
+` : ""}
+
 <h3>${a.nome}</h3>
 
 <p>📂 ${a.categoria || "Sem categoria"}</p>
