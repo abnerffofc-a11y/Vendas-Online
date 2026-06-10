@@ -130,3 +130,13 @@ footer{background:#003B95;color:#fff;text-align:center;padding:20px;margin-top:3
     border-radius:8px;
     margin-bottom:10px;
 }
+
+.btn-favorito{
+    background:#ff4081;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:10px;
+}
