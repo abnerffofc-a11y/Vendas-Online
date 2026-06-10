@@ -11,7 +11,9 @@ form.addEventListener("submit", (e) => {
     const arquivo = document.getElementById("foto").files[0];
 
     const criarAnuncio = (fotoFinal) => {
+
         const anuncio = {
+            id: Date.now(),
             nome: document.getElementById("nome").value,
             preco: document.getElementById("preco").value,
             cidade: document.getElementById("cidade").value,
@@ -33,6 +35,7 @@ form.addEventListener("submit", (e) => {
         };
 
         leitor.readAsDataURL(arquivo);
+
     } else {
         criarAnuncio("");
     }
@@ -73,9 +76,33 @@ function adicionarAnuncioNaTela(anuncio) {
         <a href="https://wa.me/${numeroLimpo}" target="_blank">
             WhatsApp
         </a>
+
+        <br><br>
+
+        <button onclick="excluirAnuncio(${anuncio.id})" style="
+            background:red;
+            color:white;
+            border:none;
+            padding:5px 10px;
+            border-radius:5px;
+            cursor:pointer;
+            margin-top:10px;
+        ">
+            Excluir
+        </button>
     `;
 
     anuncios.appendChild(card);
 }
+
+window.excluirAnuncio = function (id) {
+    let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
+
+    lista = lista.filter(anuncio => anuncio.id !== id);
+
+    localStorage.setItem("anuncios", JSON.stringify(lista));
+
+    location.reload();
+};
 
 });
