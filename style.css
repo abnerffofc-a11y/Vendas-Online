@@ -102,3 +102,21 @@ footer{background:#003B95;color:#fff;text-align:center;padding:20px;margin-top:3
     border:1px solid #ddd;
     border-radius:8px;
 }
+
+.btn-editar{
+    background:#f39c12;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btn-excluir{
+    background:#e74c3c;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
