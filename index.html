@@ -68,6 +68,17 @@
 <div style="margin-bottom:15px;">
 <input id="buscaNome" type="text" placeholder="🔎 Buscar produto..." oninput="filtrarAnuncios()">
 <input id="buscaCidade" type="text" placeholder="📍 Filtrar cidade..." oninput="filtrarAnuncios()">
+
+  <select id="buscaCategoria" onchange="filtrarAnuncios()">
+    <option value="">Todas Categorias</option>
+    <option value="Celulares">📱 Celulares</option>
+    <option value="Veículos">🚗 Veículos</option>
+    <option value="Imóveis">🏠 Imóveis</option>
+    <option value="Games">🎮 Games</option>
+    <option value="Roupas">👕 Roupas</option>
+    <option value="Serviços">🛠️ Serviços</option>
+  </select>
+  
 </div>
 
 <div id="lista-anuncios"></div>
@@ -79,6 +90,17 @@
 
 <form id="form-anuncio">
 <input type="text" id="nome" placeholder="Nome" required>
+  
+  <select id="categoria" required>
+    <option value="">Selecione uma categoria</option>
+    <option value="Celulares">📱 Celulares</option>
+    <option value="Veículos">🚗 Veículos</option>
+    <option value="Imóveis">🏠 Imóveis</option>
+    <option value="Games">🎮 Games</option>
+    <option value="Roupas">👕 Roupas</option>
+    <option value="Serviços">🛠️ Serviços</option>
+  </select>
+  
 <input type="number" id="preco" placeholder="Preço" required>
 <input type="text" id="cidade" placeholder="Cidade" required>
 <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
