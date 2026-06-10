@@ -1,101 +1,81 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 const form = document.getElementById("form-anuncio");
-const anuncios = document.getElementById("anuncios");
+const anuncios = document.getElementById("lista-anuncios");
 
 carregarAnuncios();
 
 form.addEventListener("submit", (e) => {
-e.preventDefault();
+    e.preventDefault();
 
-```
-const arquivo = document.getElementById("foto").files[0];
+    const arquivo = document.getElementById("foto").files[0];
 
-if (arquivo) {
-
-    const leitor = new FileReader();
-
-    leitor.onload = function() {
-
+    const criarAnuncio = (fotoFinal) => {
         const anuncio = {
             nome: document.getElementById("nome").value,
             preco: document.getElementById("preco").value,
             cidade: document.getElementById("cidade").value,
             whatsapp: document.getElementById("whatsapp").value,
             descricao: document.getElementById("descricao").value,
-            foto: leitor.result
+            foto: fotoFinal || ""
         };
 
         salvarAnuncio(anuncio);
         adicionarAnuncioNaTela(anuncio);
-
         form.reset();
     };
 
-    leitor.readAsDataURL(arquivo);
+    if (arquivo) {
+        const leitor = new FileReader();
 
-} else {
+        leitor.onload = function () {
+            criarAnuncio(leitor.result);
+        };
 
-    const anuncio = {
-        nome: document.getElementById("nome").value,
-        preco: document.getElementById("preco").value,
-        cidade: document.getElementById("cidade").value,
-        whatsapp: document.getElementById("whatsapp").value,
-        descricao: document.getElementById("descricao").value,
-        foto: ""
-    };
-
-    salvarAnuncio(anuncio);
-    adicionarAnuncioNaTela(anuncio);
-
-    form.reset();
-}
-```
-
+        leitor.readAsDataURL(arquivo);
+    } else {
+        criarAnuncio("");
+    }
 });
 
 function salvarAnuncio(anuncio) {
-let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
-lista.push(anuncio);
-localStorage.setItem("anuncios", JSON.stringify(lista));
+    let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
+    lista.push(anuncio);
+    localStorage.setItem("anuncios", JSON.stringify(lista));
 }
 
 function carregarAnuncios() {
-let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
+    let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
 
-```
-lista.forEach(anuncio => {
-    adicionarAnuncioNaTela(anuncio);
-});
-```
-
+    lista.forEach(anuncio => {
+        adicionarAnuncioNaTela(anuncio);
+    });
 }
 
 function adicionarAnuncioNaTela(anuncio) {
 
-```
-const card = document.createElement("div");
-card.className = "produto";
+    const card = document.createElement("div");
+    card.className = "produto";
 
-card.innerHTML = `
-    ${anuncio.foto ? `
-    <img src="${anuncio.foto}"
-    style="width:100%;max-height:250px;object-fit:cover;border-radius:10px;margin-bottom:10px;">
-    ` : ""}
+    const numeroLimpo = (anuncio.whatsapp || "").replace(/\D/g, "");
 
-    <h3>${anuncio.nome}</h3>
-    <p>${anuncio.descricao}</p>
-    <p>📍 ${anuncio.cidade}</p>
-    <p><strong>R$ ${anuncio.preco}</strong></p>
+    card.innerHTML = `
+        ${anuncio.foto ? `
+            <img src="${anuncio.foto}" 
+            style="width:100%;max-height:250px;object-fit:cover;border-radius:10px;margin-bottom:10px;">
+        ` : ""}
 
-    <a href="https://wa.me/${anuncio.whatsapp}" target="_blank">
-        WhatsApp
-    </a>
-`;
+        <h3>${anuncio.nome}</h3>
+        <p>${anuncio.descricao || ""}</p>
+        <p>📍 ${anuncio.cidade}</p>
+        <p><strong>R$ ${anuncio.preco}</strong></p>
 
-anuncios.appendChild(card);
-```
+        <a href="https://wa.me/${numeroLimpo}" target="_blank">
+            WhatsApp
+        </a>
+    `;
 
+    anuncios.appendChild(card);
 }
 
 });
