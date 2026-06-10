@@ -8,7 +8,15 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-/* 🔥 COLE AQUI SUA CONFIG DO FIREBASE */
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+/* 🔥 FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
@@ -20,6 +28,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+
+let userLogado = null;
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -29,10 +40,47 @@ const container = document.getElementById("lista-anuncios");
 carregarAnuncios();
 
 /* =========================
+   LOGIN STATE
+========================= */
+onAuthStateChanged(auth, (user) => {
+    userLogado = user;
+
+    if (user) {
+        console.log("Logado:", user.email);
+    } else {
+        console.log("Deslogado");
+    }
+});
+
+/* =========================
+   LOGIN / CADASTRO / LOGOUT
+========================= */
+window.cadastrar = function (email, senha) {
+    createUserWithEmailAndPassword(auth, email, senha)
+        .then(() => alert("Conta criada com sucesso!"))
+        .catch((e) => alert(e.message));
+};
+
+window.entrar = function (email, senha) {
+    signInWithEmailAndPassword(auth, email, senha)
+        .then(() => alert("Login realizado!"))
+        .catch((e) => alert(e.message));
+};
+
+window.sair = function () {
+    signOut(auth);
+};
+
+/* =========================
    CRIAR ANÚNCIO
 ========================= */
 form.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    if (!userLogado) {
+        alert("Você precisa estar logado para anunciar!");
+        return;
+    }
 
     const file = document.getElementById("foto").files[0];
 
@@ -45,7 +93,9 @@ form.addEventListener("submit", (e) => {
             whatsapp: document.getElementById("whatsapp").value,
             descricao: document.getElementById("descricao").value,
             foto: fotoFinal || "",
-            criadoEm: Date.now()
+            criadoEm: Date.now(),
+            userId: userLogado.uid,
+            userEmail: userLogado.email
         };
 
         await salvarAnuncio(anuncio);
@@ -109,22 +159,30 @@ function adicionarNaTela(anuncio) {
         <p>📍 ${anuncio.cidade}</p>
         <p><strong>R$ ${anuncio.preco}</strong></p>
 
+        <small>👤 ${anuncio.userEmail || "Anônimo"}</small>
+
+        <br><br>
+
         <a href="https://wa.me/${numero}" target="_blank">
             WhatsApp
         </a>
 
         <br><br>
 
-        <button onclick="excluirAnuncio('${anuncio.id}')" style="
-            background:red;
-            color:white;
-            border:none;
-            padding:5px 10px;
-            border-radius:5px;
-            cursor:pointer;
-        ">
-            Excluir
-        </button>
+        ${
+            userLogado && userLogado.uid === anuncio.userId
+            ? `<button onclick="excluirAnuncio('${anuncio.id}')" style="
+                background:red;
+                color:white;
+                border:none;
+                padding:5px 10px;
+                border-radius:5px;
+                cursor:pointer;
+            ">
+                Excluir
+            </button>`
+            : ""
+        }
     `;
 
     container.appendChild(card);
