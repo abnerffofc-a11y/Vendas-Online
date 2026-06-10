@@ -109,6 +109,9 @@ cidade:cidade.value,
 whatsapp:whatsapp.value,
 descricao:descricao.value,
 foto,
+
+destaque: document.getElementById("destaque").checked,
+  
 userId:userLogado.uid,
 userEmail:userLogado.email,
 criadoEm:Date.now()
