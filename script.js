@@ -1,66 +1,102 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+/* 🔥 COLE AQUI SUA CONFIG DO FIREBASE */
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_AUTH_DOMAIN",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_STORAGE_BUCKET",
+  messagingSenderId: "SEU_SENDER_ID",
+  appId: "SEU_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 document.addEventListener("DOMContentLoaded", () => {
 
 const form = document.getElementById("form-anuncio");
-const anuncios = document.getElementById("lista-anuncios");
+const container = document.getElementById("lista-anuncios");
 
 carregarAnuncios();
 
+/* =========================
+   CRIAR ANÚNCIO
+========================= */
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const arquivo = document.getElementById("foto").files[0];
+    const file = document.getElementById("foto").files[0];
 
-    const criarAnuncio = (fotoFinal) => {
+    const criar = async (fotoFinal) => {
 
         const anuncio = {
-            id: Date.now(),
             nome: document.getElementById("nome").value,
             preco: document.getElementById("preco").value,
             cidade: document.getElementById("cidade").value,
             whatsapp: document.getElementById("whatsapp").value,
             descricao: document.getElementById("descricao").value,
-            foto: fotoFinal || ""
+            foto: fotoFinal || "",
+            criadoEm: Date.now()
         };
 
-        salvarAnuncio(anuncio);
-        adicionarAnuncioNaTela(anuncio);
+        await salvarAnuncio(anuncio);
+
         form.reset();
+        location.reload();
     };
 
-    if (arquivo) {
-        const leitor = new FileReader();
+    if (file) {
+        const reader = new FileReader();
 
-        leitor.onload = function () {
-            criarAnuncio(leitor.result);
+        reader.onload = function () {
+            criar(reader.result);
         };
 
-        leitor.readAsDataURL(arquivo);
-
+        reader.readAsDataURL(file);
     } else {
-        criarAnuncio("");
+        criar("");
     }
 });
 
-function salvarAnuncio(anuncio) {
-    let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
-    lista.push(anuncio);
-    localStorage.setItem("anuncios", JSON.stringify(lista));
+/* =========================
+   SALVAR NO FIREBASE
+========================= */
+async function salvarAnuncio(anuncio) {
+    await addDoc(collection(db, "anuncios"), anuncio);
 }
 
-function carregarAnuncios() {
-    let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
+/* =========================
+   CARREGAR ANÚNCIOS
+========================= */
+async function carregarAnuncios() {
+    const querySnapshot = await getDocs(collection(db, "anuncios"));
 
-    lista.forEach(anuncio => {
-        adicionarAnuncioNaTela(anuncio);
+    querySnapshot.forEach((docItem) => {
+        adicionarNaTela({
+            id: docItem.id,
+            ...docItem.data()
+        });
     });
 }
 
-function adicionarAnuncioNaTela(anuncio) {
+/* =========================
+   MOSTRAR NA TELA
+========================= */
+function adicionarNaTela(anuncio) {
 
     const card = document.createElement("div");
     card.className = "produto";
 
-    const numeroLimpo = (anuncio.whatsapp || "").replace(/\D/g, "");
+    const numero = (anuncio.whatsapp || "").replace(/\D/g, "");
 
     card.innerHTML = `
         ${anuncio.foto ? `
@@ -73,35 +109,32 @@ function adicionarAnuncioNaTela(anuncio) {
         <p>📍 ${anuncio.cidade}</p>
         <p><strong>R$ ${anuncio.preco}</strong></p>
 
-        <a href="https://wa.me/${numeroLimpo}" target="_blank">
+        <a href="https://wa.me/${numero}" target="_blank">
             WhatsApp
         </a>
 
         <br><br>
 
-        <button onclick="excluirAnuncio(${anuncio.id})" style="
+        <button onclick="excluirAnuncio('${anuncio.id}')" style="
             background:red;
             color:white;
             border:none;
             padding:5px 10px;
             border-radius:5px;
             cursor:pointer;
-            margin-top:10px;
         ">
             Excluir
         </button>
     `;
 
-    anuncios.appendChild(card);
+    container.appendChild(card);
 }
 
-window.excluirAnuncio = function (id) {
-    let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
-
-    lista = lista.filter(anuncio => anuncio.id !== id);
-
-    localStorage.setItem("anuncios", JSON.stringify(lista));
-
+/* =========================
+   EXCLUIR ANÚNCIO
+========================= */
+window.excluirAnuncio = async function (id) {
+    await deleteDoc(doc(db, "anuncios", id));
     location.reload();
 };
 
