@@ -18,6 +18,7 @@
 <a href="#categorias">Categorias</a>
 <a href="#anuncios">Anúncios</a>
 <a href="#anunciar">Anunciar</a>
+<a href="#meus-anuncios">Meus Anúncios</a>
 <a href="#sobre">Sobre</a>
 <a href="#contato">Contato</a>
 </nav>
@@ -25,44 +26,26 @@
 </div>
 </header>
 
-<!-- 🔐 LOGIN (ATUALIZADO) -->
+<!-- LOGIN -->
 <section class="container" style="padding:20px; border:1px solid #ccc; margin:10px;">
-
 <h2>🔐 Login / Cadastro</h2>
 
-<!-- STATUS DO USUÁRIO -->
 <p id="status-login">Você não está logado</p>
 
-<input id="email" type="email" placeholder="Email" required>
-<input id="senha" type="password" placeholder="Senha" required>
+<input id="email" type="email" placeholder="Email">
+<input id="senha" type="password" placeholder="Senha">
 
 <br><br>
 
-<button onclick="cadastrar(
-  document.getElementById('email').value,
-  document.getElementById('senha').value
-)">
-Cadastrar
-</button>
-
-<button onclick="entrar(
-  document.getElementById('email').value,
-  document.getElementById('senha').value
-)">
-Entrar
-</button>
-
-<button onclick="sair()">
-Sair
-</button>
-
+<button onclick="cadastrar(email.value, senha.value)">Cadastrar</button>
+<button onclick="entrar(email.value, senha.value)">Entrar</button>
+<button onclick="sair()">Sair</button>
 </section>
 
 <!-- HERO -->
 <section id="inicio" class="hero">
 <h2>Compre e Venda na Sua Cidade</h2>
 <p>Anuncie produtos, serviços, veículos, imóveis e muito mais.</p>
-
 <button onclick="document.getElementById('anuncios').scrollIntoView();">
 Ver Anúncios
 </button>
@@ -71,78 +54,52 @@ Ver Anúncios
 <!-- CATEGORIAS -->
 <section id="categorias" class="container">
 <h2>📂 Categorias</h2>
-
 <div class="produto">📱 Celulares</div>
 <div class="produto">🚗 Veículos</div>
 <div class="produto">🏠 Imóveis</div>
 <div class="produto">🎮 Games</div>
 <div class="produto">👕 Roupas</div>
 <div class="produto">🛠️ Serviços</div>
-
 </section>
 
 <!-- ANÚNCIOS -->
 <section id="anuncios" class="container">
-<h2>🛒 Anúncios Recentes</h2>
-
-<!-- fixos -->
-<div class="produto">
-<h3>iPhone 13</h3>
-<p>128GB • Excelente estado</p>
-<p>📍 Centro</p>
-<p><strong>R$ 2.500</strong></p>
-<a href="#">WhatsApp</a>
-</div>
-
-<div class="produto">
-<h3>Honda CG 160</h3>
-<p>Ano 2023 • Conservada</p>
-<p>📍 Bairro Jardim</p>
-<p><strong>R$ 14.000</strong></p>
-<a href="#">WhatsApp</a>
-</div>
-
-<!-- dinâmicos -->
+<h2>🛒 Anúncios</h2>
 <div id="lista-anuncios"></div>
-
 </section>
 
-<!-- PUBLICAR ANÚNCIO -->
+<!-- PUBLICAR -->
 <section id="anunciar" class="container">
 <h2>📢 Publicar Anúncio</h2>
 
 <form id="form-anuncio">
-
-<input type="text" id="nome" placeholder="Nome do Produto" required>
-
+<input type="text" id="nome" placeholder="Nome" required>
 <input type="number" id="preco" placeholder="Preço" required>
-
-<input type="text" id="cidade" placeholder="Cidade ou Bairro" required>
-
+<input type="text" id="cidade" placeholder="Cidade" required>
 <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
-
-<textarea id="descricao" placeholder="Descrição do produto"></textarea>
-
+<textarea id="descricao" placeholder="Descrição"></textarea>
 <input type="file" id="foto" accept="image/*">
-
-<button type="submit">Publicar Anúncio</button>
-
+<button type="submit">Publicar</button>
 </form>
+</section>
+
+<!-- MEUS ANÚNCIOS -->
+<section id="meus-anuncios" class="container">
+<h2>👤 Meus Anúncios</h2>
+<button onclick="carregarMeusAnuncios()">Atualizar Meus Anúncios</button>
+<div id="lista-meus-anuncios"></div>
 </section>
 
 <!-- SOBRE -->
 <section id="sobre" class="container">
 <h2>Sobre</h2>
-<p>
-O A&A Marketplace conecta compradores e vendedores da região,
-permitindo anunciar produtos e serviços de forma simples.
-</p>
+<p>Marketplace simples com Firebase.</p>
 </section>
 
 <!-- CONTATO -->
 <section id="contato" class="container">
 <h2>Contato</h2>
-<p>WhatsApp: (00) 00000-0000</p>
+<p>WhatsApp: (97) 98409-8151</p>
 </section>
 
 <footer>
