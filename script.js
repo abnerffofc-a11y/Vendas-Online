@@ -103,6 +103,7 @@ if(file) foto = await uploadImagem(file);
 
 await addDoc(collection(db,"anuncios"),{
 nome:nome.value,
+categoria:categoria.value,
 preco:preco.value,
 cidade:cidade.value,
 whatsapp:whatsapp.value,
@@ -134,17 +135,31 @@ render(a,lista);
 /* FILTRO */
 window.filtrarAnuncios = function(){
 
-const nome = (buscaNome.value||"").toLowerCase();
-const cidade = (buscaCidade.value||"").toLowerCase();
+const nome = (buscaNome.value || "").toLowerCase();
+const cidade = (buscaCidade.value || "").toLowerCase();
+const categoria = (buscaCategoria.value || "");
 
-lista.innerHTML="";
+lista.innerHTML = "";
 
 todosAnuncios
 .filter(a =>
-(!nome || a.nome.toLowerCase().includes(nome)) &&
-(!cidade || a.cidade.toLowerCase().includes(cidade))
+
+(!nome ||
+a.nome.toLowerCase().includes(nome))
+
+&&
+
+(!cidade ||
+a.cidade.toLowerCase().includes(cidade))
+
+&&
+
+(!categoria ||
+a.categoria === categoria)
+
 )
-.forEach(a=>render(a,lista));
+.forEach(a => render(a, lista));
+
 };
 
 /* MEUS ANÚNCIOS */
@@ -173,6 +188,7 @@ const num=(a.whatsapp||"").replace(/\D/g,"");
 div.innerHTML=`
 ${a.foto?`<img src="${a.foto}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px">`:``}
 <h3>${a.nome}</h3>
+<p>📂 ${a.categoria || "Sem categoria"}</p>
 <p>${a.descricao||""}</p>
 <p>📍 ${a.cidade}</p>
 <p><b>R$ ${a.preco}</b></p>
