@@ -123,16 +123,37 @@ location.reload();
 
 /* CARREGAR */
 async function carregarAnuncios(){
+
 const snap = await getDocs(collection(db,"anuncios"));
 
-lista.innerHTML="";
-todosAnuncios=[];
+lista.innerHTML = "";
+todosAnuncios = [];
 
-snap.forEach(d=>{
-const a = {id:d.id,...d.data()};
-todosAnuncios.push(a);
-render(a,lista);
+snap.forEach(d => {
+    const a = {
+        id: d.id,
+        ...d.data()
+    };
+
+    todosAnuncios.push(a);
 });
+
+/* ⭐ Destaques primeiro */
+todosAnuncios.sort((a,b) => {
+
+    if(a.destaque && !b.destaque) return -1;
+
+    if(!a.destaque && b.destaque) return 1;
+
+    return b.criadoEm - a.criadoEm;
+
+});
+
+/* Renderizar */
+todosAnuncios.forEach(a => {
+    render(a, lista);
+});
+
 }
 
 /* FILTRO */
