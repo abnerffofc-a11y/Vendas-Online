@@ -65,32 +65,42 @@
 <h2>🛒 Anúncios</h2>
 
 <!-- 🔎 BUSCA -->
-<div style="margin-bottom:15px;">
-<input id="buscaNome" type="text" placeholder="🔎 Buscar produto..." oninput="filtrarAnuncios()">
-<input id="buscaCidade" type="text" placeholder="📍 Filtrar cidade..." oninput="filtrarAnuncios()">
+<div class="filtros">
 
-  <select id="buscaCategoria" onchange="filtrarAnuncios()">
-    <option value="">Todas Categorias</option>
+<input
+id="buscaNome"
+type="text"
+placeholder="🔎 Buscar produto..."
+oninput="filtrarAnuncios()">
+
+<input
+id="buscaCidade"
+type="text"
+placeholder="📍 Filtrar cidade..."
+oninput="filtrarAnuncios()">
+
+<select id="buscaCategoria" onchange="filtrarAnuncios()">
+    <option value="">📂 Categorias</option>
     <option value="Celulares">📱 Celulares</option>
     <option value="Veículos">🚗 Veículos</option>
     <option value="Imóveis">🏠 Imóveis</option>
     <option value="Games">🎮 Games</option>
     <option value="Roupas">👕 Roupas</option>
     <option value="Serviços">🛠️ Serviços</option>
-  </select>
+</select>
 
-  <input
+<input
 id="precoMin"
 type="number"
-placeholder="💰 Preço mínimo"
+placeholder="💰 Mínimo"
 oninput="filtrarAnuncios()">
 
 <input
 id="precoMax"
 type="number"
-placeholder="💰 Preço máximo"
+placeholder="💰 Máximo"
 oninput="filtrarAnuncios()">
-  
+
 </div>
 
 <div id="lista-anuncios"></div>
