@@ -27,7 +27,7 @@
 </header>
 
 <!-- LOGIN -->
-<section class="container" style="padding:20px; border:1px solid #ccc; margin:10px;">
+<section class="container" style="padding:20px;border:1px solid #ccc;margin:10px;">
 <h2>🔐 Login / Cadastro</h2>
 
 <p id="status-login">Você não está logado</p>
@@ -46,14 +46,12 @@
 <section id="inicio" class="hero">
 <h2>Compre e Venda na Sua Cidade</h2>
 <p>Anuncie produtos, serviços, veículos, imóveis e muito mais.</p>
-<button onclick="document.getElementById('anuncios').scrollIntoView();">
-Ver Anúncios
-</button>
 </section>
 
 <!-- CATEGORIAS -->
 <section id="categorias" class="container">
 <h2>📂 Categorias</h2>
+
 <div class="produto">📱 Celulares</div>
 <div class="produto">🚗 Veículos</div>
 <div class="produto">🏠 Imóveis</div>
@@ -65,6 +63,13 @@ Ver Anúncios
 <!-- ANÚNCIOS -->
 <section id="anuncios" class="container">
 <h2>🛒 Anúncios</h2>
+
+<!-- 🔎 BUSCA -->
+<div style="margin-bottom:15px;">
+<input id="buscaNome" type="text" placeholder="🔎 Buscar produto..." oninput="filtrarAnuncios()">
+<input id="buscaCidade" type="text" placeholder="📍 Filtrar cidade..." oninput="filtrarAnuncios()">
+</div>
+
 <div id="lista-anuncios"></div>
 </section>
 
@@ -86,20 +91,22 @@ Ver Anúncios
 <!-- MEUS ANÚNCIOS -->
 <section id="meus-anuncios" class="container">
 <h2>👤 Meus Anúncios</h2>
+
 <button onclick="carregarMeusAnuncios()">Atualizar Meus Anúncios</button>
+
 <div id="lista-meus-anuncios"></div>
 </section>
 
 <!-- SOBRE -->
 <section id="sobre" class="container">
 <h2>Sobre</h2>
-<p>Marketplace simples com Firebase.</p>
+<p>Marketplace com Firebase.</p>
 </section>
 
 <!-- CONTATO -->
 <section id="contato" class="container">
 <h2>Contato</h2>
-<p>WhatsApp: (97) 98409-8151</p>
+<p>WhatsApp: (00) 00000-0000</p>
 </section>
 
 <footer>
