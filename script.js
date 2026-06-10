@@ -16,7 +16,7 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-/* 🔥 FIREBASE CONFIG */
+/* 🔥 FIREBASE CONFIG (COLE SUA CONFIG REAL AQUI) */
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
@@ -32,23 +32,27 @@ const auth = getAuth(app);
 
 let userLogado = null;
 
+/* =========================
+   ELEMENTOS
+========================= */
 document.addEventListener("DOMContentLoaded", () => {
 
 const form = document.getElementById("form-anuncio");
 const container = document.getElementById("lista-anuncios");
+const statusLogin = document.getElementById("status-login");
 
 carregarAnuncios();
 
 /* =========================
-   LOGIN STATE
+   ESTADO DO LOGIN
 ========================= */
 onAuthStateChanged(auth, (user) => {
     userLogado = user;
 
     if (user) {
-        console.log("Logado:", user.email);
+        statusLogin.innerText = "Logado como: " + user.email;
     } else {
-        console.log("Deslogado");
+        statusLogin.innerText = "Você não está logado";
     }
 });
 
@@ -63,7 +67,7 @@ window.cadastrar = function (email, senha) {
 
 window.entrar = function (email, senha) {
     signInWithEmailAndPassword(auth, email, senha)
-        .then(() => alert("Login realizado!"))
+        .then(() => alert("Login realizado com sucesso!"))
         .catch((e) => alert(e.message));
 };
 
@@ -129,6 +133,8 @@ async function salvarAnuncio(anuncio) {
 ========================= */
 async function carregarAnuncios() {
     const querySnapshot = await getDocs(collection(db, "anuncios"));
+
+    container.innerHTML = "";
 
     querySnapshot.forEach((docItem) => {
         adicionarNaTela({
