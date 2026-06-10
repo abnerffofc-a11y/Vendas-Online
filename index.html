@@ -3,25 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A&A Digital Store</title>
+<title>A&A Marketplace</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
 <div class="container">
-<h1>A&A Digital Store</h1>
+<h1>A&A Marketplace</h1>
 <nav>
 <a href="#inicio">Início</a>
+    <section id="categorias" class="container">
+<h2>📂 Categorias</h2>
+
+<div class="produto">📱 Celulares</div>
+<div class="produto">🚗 Veículos</div>
+<div class="produto">🏠 Imóveis</div>
+<div class="produto">🎮 Games</div>
+<div class="produto">👕 Roupas</div>
+<div class="produto">🛠️ Serviços</div>
+    </section>
 <a href="#produtos">Produtos</a>
+    <section id="anuncios" class="container">
+<h2>🛒 Anúncios Recentes</h2>
+
+<div class="produto">
+<h3>iPhone 13</h3>
+<p>128GB, excelente estado.</p>
+<p>📍 Centro</p>
+<p><strong>R$ 2.500</strong></p>
+<a href="https://wa.me/5500000000000">WhatsApp</a>
+</div>
+
+<div class="produto">
+<h3>Honda CG 160</h3>
+<p>Moto conservada.</p>
+<p>📍 Bairro Jardim</p>
+<p><strong>R$ 14.000</strong></p>
+<a href="https://wa.me/5500000000000">WhatsApp</a>
+</div>
+    </section>
 <a href="#sobre">Sobre</a>
 <a href="#contato">Contato</a>
+<a href="#anunciar">Anunciar</a>
+<a href="#anuncios">Anúncios</a>
+    <section id="anunciar" class="container">
+<h2>📢 Publicar Anúncio</h2>
+
+<form>
+<input type="text" placeholder="Nome do Produto">
+<input type="number" placeholder="Preço">
+<input type="text" placeholder="Cidade ou Bairro">
+<input type="tel" placeholder="WhatsApp">
+<textarea placeholder="Descrição"></textarea>
+
+<button type="submit">
+Enviar Anúncio
+</button>
+</form>
+    </section>
 </nav>
 </div>
 </header>
 
 <section id="inicio" class="hero">
-<h2>Produtos Digitais de Qualidade</h2>
-<p>Entrega rápida, pagamento seguro e suporte especializado.</p>
+<h2>Compre e Venda na sua Cidade</h2>
+<p>Anuncie produtos, serviços, veículos, imóveis e muito mais.</p>
 <button onclick="scrollToProducts()">Ver Produtos</button>
 </section>
 
