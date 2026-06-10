@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -26,14 +25,17 @@
 </div>
 </header>
 
+<!-- HERO -->
 <section id="inicio" class="hero">
 <h2>Compre e Venda na Sua Cidade</h2>
 <p>Anuncie produtos, serviços, veículos, imóveis e muito mais.</p>
+
 <button onclick="document.getElementById('anuncios').scrollIntoView();">
 Ver Anúncios
 </button>
 </section>
 
+<!-- CATEGORIAS -->
 <section id="categorias" class="container">
 <h2>📂 Categorias</h2>
 
@@ -43,11 +45,14 @@ Ver Anúncios
 <div class="produto">🎮 Games</div>
 <div class="produto">👕 Roupas</div>
 <div class="produto">🛠️ Serviços</div>
+
 </section>
 
+<!-- ANÚNCIOS -->
 <section id="anuncios" class="container">
 <h2>🛒 Anúncios Recentes</h2>
 
+<!-- anúncios fixos -->
 <div class="produto">
 <h3>iPhone 13</h3>
 <p>128GB • Excelente estado</p>
@@ -64,8 +69,12 @@ Ver Anúncios
 <a href="#">WhatsApp</a>
 </div>
 
+<!-- 👇 AQUI entram os anúncios criados pelo JS -->
+<div id="lista-anuncios"></div>
+
 </section>
 
+<!-- PUBLICAR ANÚNCIO -->
 <section id="anunciar" class="container">
 <h2>📢 Publicar Anúncio</h2>
 
@@ -82,14 +91,13 @@ Ver Anúncios
 <textarea id="descricao" placeholder="Descrição do produto"></textarea>
 
 <input type="file" id="foto" accept="image/*">
-  
-<button type="submit">
-Publicar Anúncio
-</button>
+
+<button type="submit">Publicar Anúncio</button>
 
 </form>
 </section>
 
+<!-- SOBRE -->
 <section id="sobre" class="container">
 <h2>Sobre</h2>
 <p>
@@ -98,6 +106,7 @@ permitindo anunciar produtos e serviços de forma simples.
 </p>
 </section>
 
+<!-- CONTATO -->
 <section id="contato" class="container">
 <h2>Contato</h2>
 <p>WhatsApp: (00) 00000-0000</p>
@@ -111,4 +120,3 @@ permitindo anunciar produtos e serviços de forma simples.
 
 </body>
 </html>
-
