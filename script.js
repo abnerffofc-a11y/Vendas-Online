@@ -288,34 +288,46 @@ container.appendChild(div);
 }
 
 /* DELETE */
-window.favoritar = async function(anuncioId){
+window.carregarFavoritos = async function(){
 
 if(!userLogado){
 alert("Faça login");
 return;
 }
 
+listaFavoritos.innerHTML = "";
+
 const favoritosRef = collection(db,"favoritos");
 
 const q = query(
 favoritosRef,
-where("userId","==",userLogado.uid),
-where("anuncioId","==",anuncioId)
+where("userId","==",userLogado.uid)
 );
 
-const existente = await getDocs(q);
+const favoritos = await getDocs(q);
 
-if(!existente.empty){
-alert("❤️ Este anúncio já está nos favoritos");
-return;
-}
+const ids = [];
 
-await addDoc(collection(db,"favoritos"),{
-anuncioId: anuncioId,
-userId: userLogado.uid
+favoritos.forEach(f=>{
+ids.push(f.data().anuncioId);
 });
 
-alert("❤️ Adicionado aos favoritos");
+const anuncios = await getDocs(
+collection(db,"anuncios")
+);
+
+anuncios.forEach(docItem=>{
+
+const anuncio = {
+id: docItem.id,
+...docItem.data()
+};
+
+if(ids.includes(anuncio.id)){
+render(anuncio, listaFavoritos);
+}
+
+});
 
 };
   
