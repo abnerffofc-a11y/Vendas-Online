@@ -26,12 +26,12 @@ import {
 
 /* FIREBASE CONFIG */
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_AUTH_DOMAIN",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_STORAGE_BUCKET",
-  messagingSenderId: "SEU_SENDER_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyBMRk9KMLlRTvczALZFz4-PNJiU1zd3ARM",
+  authDomain: "my-a-b995c.firebaseapp.com",
+  projectId: "my-a-b995c",
+  storageBucket: "my-a-b995c.firebasestorage.app",
+  messagingSenderId: "143424113510",
+  appId: "1:143424113510:web:68e912516830d48f0cd6a7"
 };
 
 const app = initializeApp(firebaseConfig);
