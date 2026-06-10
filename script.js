@@ -1,4 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+
+/* FIRESTORE */
 import {
   getFirestore,
   collection,
@@ -8,6 +10,7 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
+/* AUTH */
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -16,7 +19,15 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-/* 🔥 FIREBASE CONFIG (COLE SUA CONFIG REAL AQUI) */
+/* STORAGE */
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
+
+/* 🔥 CONFIG FIREBASE */
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
@@ -29,6 +40,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 let userLogado = null;
 
@@ -44,7 +56,7 @@ const statusLogin = document.getElementById("status-login");
 carregarAnuncios();
 
 /* =========================
-   ESTADO DO LOGIN
+   LOGIN STATE
 ========================= */
 onAuthStateChanged(auth, (user) => {
     userLogado = user;
@@ -57,17 +69,17 @@ onAuthStateChanged(auth, (user) => {
 });
 
 /* =========================
-   LOGIN / CADASTRO / LOGOUT
+   AUTH FUNCTIONS
 ========================= */
 window.cadastrar = function (email, senha) {
     createUserWithEmailAndPassword(auth, email, senha)
-        .then(() => alert("Conta criada com sucesso!"))
+        .then(() => alert("Conta criada!"))
         .catch((e) => alert(e.message));
 };
 
 window.entrar = function (email, senha) {
     signInWithEmailAndPassword(auth, email, senha)
-        .then(() => alert("Login realizado com sucesso!"))
+        .then(() => alert("Login realizado!"))
         .catch((e) => alert(e.message));
 };
 
@@ -76,9 +88,22 @@ window.sair = function () {
 };
 
 /* =========================
+   UPLOAD IMAGEM STORAGE
+========================= */
+async function uploadImagem(file) {
+    const imageRef = ref(storage, "anuncios/" + Date.now() + "_" + file.name);
+
+    await uploadBytes(imageRef, file);
+
+    const url = await getDownloadURL(imageRef);
+
+    return url;
+}
+
+/* =========================
    CRIAR ANÚNCIO
 ========================= */
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     if (!userLogado) {
@@ -88,45 +113,29 @@ form.addEventListener("submit", (e) => {
 
     const file = document.getElementById("foto").files[0];
 
-    const criar = async (fotoFinal) => {
-
-        const anuncio = {
-            nome: document.getElementById("nome").value,
-            preco: document.getElementById("preco").value,
-            cidade: document.getElementById("cidade").value,
-            whatsapp: document.getElementById("whatsapp").value,
-            descricao: document.getElementById("descricao").value,
-            foto: fotoFinal || "",
-            criadoEm: Date.now(),
-            userId: userLogado.uid,
-            userEmail: userLogado.email
-        };
-
-        await salvarAnuncio(anuncio);
-
-        form.reset();
-        location.reload();
-    };
+    let fotoURL = "";
 
     if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function () {
-            criar(reader.result);
-        };
-
-        reader.readAsDataURL(file);
-    } else {
-        criar("");
+        fotoURL = await uploadImagem(file);
     }
-});
 
-/* =========================
-   SALVAR NO FIREBASE
-========================= */
-async function salvarAnuncio(anuncio) {
+    const anuncio = {
+        nome: document.getElementById("nome").value,
+        preco: document.getElementById("preco").value,
+        cidade: document.getElementById("cidade").value,
+        whatsapp: document.getElementById("whatsapp").value,
+        descricao: document.getElementById("descricao").value,
+        foto: fotoURL,
+        criadoEm: Date.now(),
+        userId: userLogado.uid,
+        userEmail: userLogado.email
+    };
+
     await addDoc(collection(db, "anuncios"), anuncio);
-}
+
+    form.reset();
+    location.reload();
+});
 
 /* =========================
    CARREGAR ANÚNCIOS
