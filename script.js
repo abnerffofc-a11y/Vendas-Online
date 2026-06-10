@@ -57,10 +57,30 @@ onAuthStateChanged(auth, (user) => {
     status.innerText = user ? "Logado: " + user.email : "Você não está logado";
 });
 
-/* AUTH */
-window.cadastrar = (e,s)=>createUserWithEmailAndPassword(auth,e,s);
-window.entrar = (e,s)=>signInWithEmailAndPassword(auth,e,s);
-window.sair = ()=>signOut(auth);
+/* AUTH */window.cadastrar = async (email, senha) => {
+  try {
+    await createUserWithEmailAndPassword(auth, email, senha);
+    alert("Cadastro realizado com sucesso!");
+  } catch (erro) {
+    alert("ERRO: " + erro.message);
+    console.error(erro);
+  }
+};
+
+window.entrar = async (email, senha) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, senha);
+    alert("Login realizado com sucesso!");
+  } catch (erro) {
+    alert("ERRO: " + erro.message);
+    console.error(erro);
+  }
+};
+
+window.sair = async () => {
+  await signOut(auth);
+  alert("Saiu da conta");
+};
 
 /* UPLOAD */
 async function uploadImagem(file){
