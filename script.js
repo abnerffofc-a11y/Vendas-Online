@@ -1,39 +1,57 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-const form = document.querySelector("#anunciar form");
-const anuncios = document.querySelector("#anuncios");
+const form = document.getElementById("form-anuncio");
+const anuncios = document.getElementById("anuncios");
 
-form.addEventListener("submit", function(e) {
-e.preventDefault();
+carregarAnuncios();
 
-```
-const nome = form.querySelector('input[type="text"]').value;
-const preco = form.querySelector('input[type="number"]').value;
-const cidade = form.querySelectorAll('input[type="text"]')[1].value;
-const whatsapp = form.querySelector('input[type="tel"]').value;
-const descricao = form.querySelector('textarea').value;
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-const novoAnuncio = document.createElement("div");
-novoAnuncio.classList.add("produto");
+    const anuncio = {
+        nome: document.getElementById("nome").value,
+        preco: document.getElementById("preco").value,
+        cidade: document.getElementById("cidade").value,
+        whatsapp: document.getElementById("whatsapp").value,
+        descricao: document.getElementById("descricao").value
+    };
 
-novoAnuncio.innerHTML = `
-    <h3>${nome}</h3>
-    <p>${descricao}</p>
-    <p>📍 ${cidade}</p>
-    <p><strong>R$ ${preco}</strong></p>
-    <a href="https://wa.me/${whatsapp}" target="_blank">
-    WhatsApp
-    </a>
-`;
+    salvarAnuncio(anuncio);
+    adicionarAnuncioNaTela(anuncio);
 
-anuncios.appendChild(novoAnuncio);
-
-form.reset();
-
-alert("Anúncio publicado com sucesso!");
-```
-
+    form.reset();
 });
 
+function salvarAnuncio(anuncio){
+    let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
+    lista.push(anuncio);
+    localStorage.setItem("anuncios", JSON.stringify(lista));
+}
+
+function carregarAnuncios(){
+    let lista = JSON.parse(localStorage.getItem("anuncios")) || [];
+
+    lista.forEach(anuncio => {
+        adicionarAnuncioNaTela(anuncio);
+    });
+}
+
+function adicionarAnuncioNaTela(anuncio){
+
+    const card = document.createElement("div");
+    card.className = "produto";
+
+    card.innerHTML = `
+        <h3>${anuncio.nome}</h3>
+        <p>${anuncio.descricao}</p>
+        <p>📍 ${anuncio.cidade}</p>
+        <p><strong>R$ ${anuncio.preco}</strong></p>
+        <a href="https://wa.me/${anuncio.whatsapp}" target="_blank">
+        WhatsApp
+        </a>
+    `;
+
+    anuncios.appendChild(card);
+}
+
 });
-                      
