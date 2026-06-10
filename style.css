@@ -120,3 +120,13 @@ footer{background:#003B95;color:#fff;text-align:center;padding:20px;margin-top:3
     border-radius:8px;
     cursor:pointer;
 }
+
+.badge-destaque{
+    background:gold;
+    color:black;
+    font-weight:bold;
+    text-align:center;
+    padding:8px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
