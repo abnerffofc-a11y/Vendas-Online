@@ -59,6 +59,66 @@ lista.innerHTML="";
 
 const snap = await getDocs(collection(db,"anuncios"));
 
+window.filtrarAnuncios = function () {
+
+  const nome = (document.getElementById("buscaNome").value || "").toLowerCase();
+  const cidade = (document.getElementById("buscaCidade").value || "").toLowerCase();
+  const categoria = document.getElementById("buscaCategoria").value;
+
+  const min = Number(document.getElementById("precoMin").value) || 0;
+  const max = Number(document.getElementById("precoMax").value) || Infinity;
+
+  const lista = document.getElementById("lista-anuncios");
+  lista.innerHTML = "";
+
+  todosAnuncios
+    .filter(a => {
+
+      return (
+        (!nome || a.nome.toLowerCase().includes(nome)) &&
+        (!cidade || a.cidade.toLowerCase().includes(cidade)) &&
+        (!categoria || a.categoria === categoria) &&
+        (Number(a.preco) >= min) &&
+        (Number(a.preco) <= max)
+      );
+
+    })
+    .forEach(a => {
+
+      // REUTILIZA SEU CARD ATUAL
+      const div = document.createElement("div");
+      div.className = "produto";
+
+      const num = (a.whatsapp || "").replace(/\D/g,"");
+
+      div.innerHTML = `
+        <h3>${a.nome}</h3>
+        <p>📍 ${a.cidade}</p>
+        <p><strong>R$ ${a.preco}</strong></p>
+
+        <a class="btn-whatsapp"
+           href="https://wa.me/${num}"
+           target="_blank">
+           📱 WhatsApp
+        </a>
+
+        <button onclick="favoritar('${a.id}')">❤️ Favoritar</button>
+
+        ${userLogado?.uid === a.userId ? `
+          <button onclick="editar('${a.id}','${a.nome}','${a.preco}','${a.cidade}','${a.whatsapp}','${a.descricao || ""}')">
+            ✏️ Editar
+          </button>
+
+          <button onclick="excluir('${a.id}')">
+            🗑 Excluir
+          </button>
+        ` : ""}
+      `;
+
+      lista.appendChild(div);
+    });
+}; 
+
 snap.forEach(d=>{
 const a = {id:d.id,...d.data()};
 
