@@ -90,14 +90,42 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarAnuncios();
   irPara("inicio");
 
-document.getElementById("login").style.display = "block";
+document.getElementById("capa").style.display = "block";
+document.getElementById("anuncios").style.display = "none";
+
+const login = document.getElementById("login-section");
+if (login) login.style.display = "block";
 
   /* LOGIN STATUS */
-  onAuthStateChanged(auth, (user) => {
-    userLogado = user;
-    document.getElementById("status-login").innerText =
-      user ? "Logado: " + user.email : "Você não está logado";
-  });
+onAuthStateChanged(auth, (user) => {
+
+  userLogado = user;
+  status.innerText = user ? "Logado: " + user.email : "Você não está logado";
+
+  const capa = document.getElementById("capa");
+  const login = document.getElementById("login-section");
+  const anuncios = document.getElementById("anuncios");
+
+  if (user) {
+
+    // 🔥 LOGADO: some capa e login
+    if (capa) capa.style.display = "none";
+    if (login) login.style.display = "none";
+
+    // mostra marketplace
+    if (anuncios) anuncios.style.display = "block";
+
+    carregarAnuncios();
+
+  } else {
+
+    // 🔥 DESLOGADO: mostra capa e login
+    if (capa) capa.style.display = "block";
+    if (login) login.style.display = "block";
+
+    if (anuncios) anuncios.style.display = "none";
+  }
+});
 
   /* AUTH */
   window.cadastrar = async (email, senha) => {
