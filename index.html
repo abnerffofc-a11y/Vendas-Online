@@ -44,6 +44,40 @@
 <section id="anuncios" class="container">
   <h2>🛒 Anúncios</h2>
 
+  <div class="filtros">
+
+  <input id="buscaNome"
+         type="text"
+         placeholder="🔎 Buscar produto..."
+         oninput="filtrarAnuncios()">
+
+  <input id="buscaCidade"
+         type="text"
+         placeholder="📍 Cidade..."
+         oninput="filtrarAnuncios()">
+
+  <select id="buscaCategoria" onchange="filtrarAnuncios()">
+    <option value="">📂 Categoria</option>
+    <option value="Celulares">Celulares</option>
+    <option value="Veículos">Veículos</option>
+    <option value="Imóveis">Imóveis</option>
+    <option value="Games">Games</option>
+    <option value="Roupas">Roupas</option>
+    <option value="Serviços">Serviços</option>
+  </select>
+
+  <input id="precoMin"
+         type="number"
+         placeholder="💰 Mín"
+         oninput="filtrarAnuncios()">
+
+  <input id="precoMax"
+         type="number"
+         placeholder="💰 Máx"
+         oninput="filtrarAnuncios()">
+
+  </div>
+  
   <div id="lista-anuncios"></div>
 </section>
 
