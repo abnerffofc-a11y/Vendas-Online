@@ -25,6 +25,10 @@ const auth = getAuth(app);
 let userLogado = null;
 
 /* LOGIN */
+window.entrar = window.entrar || function(){};
+window.cadastrar = window.cadastrar || function(){};
+window.sair = window.sair || function(){};
+
 window.entrar = async () => {
 
   const email = document.getElementById("email").value;
