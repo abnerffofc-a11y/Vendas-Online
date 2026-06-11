@@ -35,21 +35,19 @@ const auth = getAuth(app);
 let todosAnuncios = [];
 
 /* LOGIN */
-window.entrar = window.entrar || function(){};
-window.cadastrar = window.cadastrar || function(){};
-window.sair = window.sair || function(){};
-
 window.entrar = async () => {
 
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
 
+  console.log("Tentando login...");
+
   try {
     await signInWithEmailAndPassword(auth, email, senha);
     alert("Login realizado com sucesso!");
   } catch (e) {
-    alert("Erro login: " + e.message);
-    console.error(e);
+    console.error("ERRO LOGIN:", e);
+    alert(e.message);
   }
 };
 
