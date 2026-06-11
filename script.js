@@ -68,11 +68,17 @@ const div = document.createElement("div");
 div.className="produto";
 
 div.innerHTML = `
+  ${a.foto ? `<img src="${a.foto}">` : ""}
+
+  ${a.destaque ? `<span class="badge">⭐ Destaque</span>` : ""}
+
   <h3>${a.nome}</h3>
 
   <p>📍 ${a.cidade}</p>
 
   <p><strong>R$ ${a.preco}</strong></p>
+
+  <p>${a.descricao || ""}</p>
 
   <a class="btn-whatsapp"
      href="https://wa.me/${num}?text=${encodeURIComponent('Olá vi seu anúncio no marketplace')}"
