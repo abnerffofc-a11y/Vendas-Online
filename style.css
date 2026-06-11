@@ -140,3 +140,128 @@ footer{background:#003B95;color:#fff;text-align:center;padding:20px;margin-top:3
     cursor:pointer;
     margin-top:10px;
 }
+
+/* ===== BASE MODERNA ===== */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  color: #222;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #111;
+  color: white;
+  padding: 10px 0;
+}
+
+header .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* MENU */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+nav a:hover {
+  background: #333;
+}
+
+/* ===== SEÇÕES ===== */
+section {
+  padding: 15px;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
+  background: white;
+  padding: 40px 20px;
+  border-radius: 12px;
+  margin: 15px;
+}
+
+/* ===== CARD DE ANÚNCIO (MUITO IMPORTANTE) ===== */
+.produto {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.produto:hover {
+  transform: scale(1.01);
+}
+
+/* PREÇO */
+.preco {
+  font-size: 18px;
+  font-weight: bold;
+  color: green;
+}
+
+/* BOTÃO WHATSAPP */
+.btn-whatsapp {
+  display: inline-block;
+  background: #25D366;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-top: 8px;
+}
+
+/* FAVORITO */
+.btn-favorito {
+  background: transparent;
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* FILTROS */
+.filtros {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.filtros input,
+.filtros select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+  .filtros {
+    grid-template-columns: 1fr;
+  }
+}
