@@ -25,9 +25,38 @@ const auth = getAuth(app);
 let userLogado = null;
 
 /* LOGIN */
-window.cadastrar = (e,s)=>createUserWithEmailAndPassword(auth,e,s);
-window.entrar = (e,s)=>signInWithEmailAndPassword(auth,e,s);
-window.sair = ()=>signOut(auth);
+window.entrar = async () => {
+
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, senha);
+    alert("Login realizado com sucesso!");
+  } catch (e) {
+    alert("Erro login: " + e.message);
+    console.error(e);
+  }
+};
+
+window.cadastrar = async () => {
+
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, senha);
+    alert("Conta criada com sucesso!");
+  } catch (e) {
+    alert("Erro cadastro: " + e.message);
+    console.error(e);
+  }
+};
+
+window.sair = async () => {
+  await signOut(auth);
+  alert("Saiu da conta");
+};
 
 /* CONTROLE DE TELA (SIMPLES E ESTÁVEL) */
 onAuthStateChanged(auth, (user) => {
