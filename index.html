@@ -10,13 +10,13 @@
 <body>
 
 <!-- CAPA -->
-<section id="capa" class="hero show">
+<section id="capa" class="hero">
   <h1>Bem-vindo ao A&A Marketplace</h1>
-  <p>Compre e venda produtos na sua cidade de forma rápida e simples.</p>
+  <p>Compre e venda na sua cidade de forma rápida e simples.</p>
 </section>
 
 <!-- LOGIN -->
-<section id="login-section" class="container show">
+<section id="login-section" class="container">
   <h2>🔐 Login / Cadastro</h2>
 
   <p id="status-login">Você não está logado</p>
@@ -29,23 +29,25 @@
   <button onclick="sair()">Sair</button>
 </section>
 
+<!-- NAV -->
 <header>
   <h2>A&A Marketplace</h2>
   <nav>
     <a href="#" onclick="irPara('anuncios')">Anúncios</a>
     <a href="#" onclick="irPara('anunciar')">Anunciar</a>
-    <a href="#" onclick="irPara('meus-anuncios')">Meus</a>
+    <a href="#" onclick="irPara('meus-anuncios')">Meus Anúncios</a>
+    <a href="#" onclick="irPara('favoritos')">Favoritos</a>
   </nav>
 </header>
 
 <!-- ANÚNCIOS -->
-<section id="anuncios" class="container hide">
+<section id="anuncios" class="container">
   <h2>🛒 Anúncios</h2>
   <div id="lista-anuncios"></div>
 </section>
 
 <!-- PUBLICAR -->
-<section id="anunciar" class="container hide">
+<section id="anunciar" class="container">
   <h2>📢 Publicar Anúncio</h2>
 
   <form id="form-anuncio">
@@ -60,9 +62,15 @@
 </section>
 
 <!-- MEUS -->
-<section id="meus-anuncios" class="container hide">
+<section id="meus-anuncios" class="container">
   <h2>👤 Meus Anúncios</h2>
   <div id="lista-meus"></div>
+</section>
+
+<!-- FAVORITOS -->
+<section id="favoritos" class="container">
+  <h2>❤️ Favoritos</h2>
+  <div id="lista-favoritos"></div>
 </section>
 
 <script type="module" src="script.js"></script>
