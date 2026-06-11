@@ -50,17 +50,35 @@ window.irPara = function (pagina) {
 
   const secoes = document.querySelectorAll("section");
 
+  // 1. Esconde todas as seções
   secoes.forEach(secao => {
     secao.style.display = "none";
   });
 
+  // 2. Mostra a seção escolhida
   const alvo = document.getElementById(pagina);
+  if (alvo) {
+    alvo.style.display = "block";
+  }
 
-  if (alvo) alvo.style.display = "block";
+  // 3. 🔥 SEMPRE mostrar login (NUNCA esconder)
+  const login = document.getElementById("login");
+  if (login) {
+    login.style.display = "block";
+  }
 
-  if (pagina === "anuncios") carregarAnuncios();
-  if (pagina === "meus-anuncios") carregarMeusAnuncios();
-  if (pagina === "favoritos") carregarFavoritos();
+  // 4. Carregamentos específicos
+  if (pagina === "anuncios") {
+    carregarAnuncios();
+  }
+
+  if (pagina === "meus-anuncios") {
+    carregarMeusAnuncios();
+  }
+
+  if (pagina === "favoritos") {
+    carregarFavoritos();
+  }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -71,6 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   carregarAnuncios();
   irPara("inicio");
+
+document.getElementById("login").style.display = "block";
 
   /* LOGIN STATUS */
   onAuthStateChanged(auth, (user) => {
