@@ -63,7 +63,7 @@ Sair
 </section>
 
 <!-- CATEGORIAS -->
-<section id="categorias" class="container">
+<section id="categorias" class="container" style="display:none;">
 <h2>📂 Categorias</h2>
 
 <div class="produto">📱 Celulares</div>
@@ -75,8 +75,11 @@ Sair
 </section>
 
 <!-- ANÚNCIOS -->
-<section id="anuncios" class="container">
-<h2>🛒 Anúncios</h2>
+<section id="anuncios" class="container" style="display:none;">
+  <h2>🛒 Anúncios</h2>
+
+  <div id="lista-anuncios"></div>
+</section>
 
 <!-- BUSCA -->
 <div class="filtros">
@@ -115,7 +118,7 @@ Atualizar Favoritos
 </section>
 
 <!-- PUBLICAR -->
-<section id="anunciar" class="container">
+<section id="anunciar" class="container" style="display:none;">
 <h2>📢 Publicar Anúncio</h2>
 
 <form id="form-anuncio">
@@ -147,7 +150,7 @@ Atualizar Favoritos
 </section>
 
 <!-- MEUS ANÚNCIOS -->
-<section id="meus-anuncios" class="container">
+<section id="meus-anuncios" class="container" style="display:none;">
 <h2>👤 Meus Anúncios</h2>
 
 <button onclick="carregarMeusAnuncios()">Atualizar Meus Anúncios</button>
