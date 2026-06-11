@@ -284,7 +284,7 @@ function render(a, container) {
     <p>R$ ${a.preco}</p>
 
     <a 
-      href="https://wa.me/${whatsappFinal}" 
+      href="https://wa.me/${whatsappFinal}?text=${encodeURIComponent('Olá! Vi seu anúncio no A&A Marketplace e tenho interesse 😊')}"
       target="_blank"
       class="btn-whatsapp">
       📱 Chamar no WhatsApp
