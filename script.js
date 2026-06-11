@@ -81,8 +81,12 @@ onAuthStateChanged(auth, async (user) => {
 
   // PERFIL
   const perfil = document.getElementById("perfil-usuario");
-  const email = document.getElementById("user-email");
+  const emailEl = document.getElementById("user-email");
   const qtd = document.getElementById("qtd-anuncios");
+
+  const nomePerfil = document.getElementById("nome-perfil");
+  const fotoPerfil = document.getElementById("foto-perfil");
+  const emailPerfil = document.getElementById("email-perfil");
 
   if (user) {
 
@@ -93,9 +97,22 @@ onAuthStateChanged(auth, async (user) => {
 
     // MOSTRA PERFIL
     if (perfil) perfil.style.display = "block";
-    if (email) email.innerText = user.email;
+    if (emailEl) emailEl.innerText = user.email;
+    if (emailPerfil) emailPerfil.innerText = user.email;
 
-    // CONTAR ANÚNCIOS DO USUÁRIO
+    // 🔥 BUSCAR PERFIL SALVO (SE EXISTIR)
+    const snapUser = await getDocs(collection(db, "usuarios"));
+
+    snapUser.forEach(doc => {
+      if (doc.id === user.uid) {
+        const data = doc.data();
+
+        if (nomePerfil) nomePerfil.value = data.nome || "";
+        if (fotoPerfil && data.foto) fotoPerfil.src = data.foto;
+      }
+    });
+
+    // 🔥 CONTAR ANÚNCIOS DO USUÁRIO
     const snap = await getDocs(collection(db, "anuncios"));
 
     let total = 0;
@@ -117,6 +134,9 @@ onAuthStateChanged(auth, async (user) => {
 
     // ESCONDE PERFIL
     if (perfil) perfil.style.display = "none";
+
+    if (emailEl) emailEl.innerText = "";
+    if (qtd) qtd.innerText = "0";
   }
 
 });
