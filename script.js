@@ -1,12 +1,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 import {
   getFirestore
@@ -30,7 +32,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let userLogado = null;
+let todosAnuncios = [];
 
 /* LOGIN */
 window.entrar = window.entrar || function(){};
@@ -148,37 +150,46 @@ document.getElementById(id).style.display="block";
 };
 
 /* CARREGAR ANÚNCIOS */
-window.carregarAnuncios = async ()=>{
+window.carregarAnuncios = async () => {
 
-const lista = document.getElementById("lista-anuncios");
-lista.innerHTML="";
+  const lista = document.getElementById("lista-anuncios");
+  lista.innerHTML = "";
 
-const snap = await getDocs(collection(db,"anuncios"));
+  const snap = await getDocs(collection(db, "anuncios"));
+
+  todosAnuncios = [];
+
+  snap.forEach(d => {
+    todosAnuncios.push({ id: d.id, ...d.data() });
+  });
+
+  renderAnuncios(todosAnuncios);
+};
 
 window.filtrarAnuncios = function () {
 
-  const nome = (document.getElementById("buscaNome").value || "").toLowerCase();
-  const cidade = (document.getElementById("buscaCidade").value || "").toLowerCase();
+  const nome = document.getElementById("buscaNome").value.toLowerCase();
+  const cidade = document.getElementById("buscaCidade").value.toLowerCase();
   const categoria = document.getElementById("buscaCategoria").value;
 
   const min = Number(document.getElementById("precoMin").value) || 0;
   const max = Number(document.getElementById("precoMax").value) || Infinity;
 
-  const lista = document.getElementById("lista-anuncios");
-  lista.innerHTML = "";
+  const filtrados = todosAnuncios.filter(a => {
 
-  todosAnuncios
-    .filter(a => {
+    return (
+      (!nome || a.nome.toLowerCase().includes(nome)) &&
+      (!cidade || a.cidade.toLowerCase().includes(cidade)) &&
+      (!categoria || a.categoria === categoria) &&
+      (Number(a.preco) >= min) &&
+      (Number(a.preco) <= max)
+    );
 
-      return (
-        (!nome || a.nome.toLowerCase().includes(nome)) &&
-        (!cidade || a.cidade.toLowerCase().includes(cidade)) &&
-        (!categoria || a.categoria === categoria) &&
-        (Number(a.preco) >= min) &&
-        (Number(a.preco) <= max)
-      );
+  });
 
-    })
+  renderAnuncios(filtrados);
+};
+
     .forEach(a => {
 
       // REUTILIZA SEU CARD ATUAL
@@ -318,3 +329,43 @@ descricao:nd
 
 carregarAnuncios();
 };
+
+function renderAnuncios(listaFinal) {
+
+  const lista = document.getElementById("lista-anuncios");
+  lista.innerHTML = "";
+
+  listaFinal.forEach(a => {
+
+    const div = document.createElement("div");
+    div.className = "produto";
+
+    const num = (a.whatsapp || "").replace(/\D/g,"");
+
+    div.innerHTML = `
+      ${a.foto ? `<img src="${a.foto}" style="width:100%">` : ""}
+
+      <h3>${a.nome}</h3>
+      <p>📍 ${a.cidade}</p>
+      <p><strong>R$ ${a.preco}</strong></p>
+
+      <a href="https://wa.me/${num}" target="_blank">
+        📱 WhatsApp
+      </a>
+
+      <button onclick="favoritar('${a.id}')">❤️ Favoritar</button>
+
+      ${userLogado?.uid === a.userId ? `
+        <button onclick="editar('${a.id}','${a.nome}','${a.preco}','${a.cidade}','${a.whatsapp}','${a.descricao || ""}')">
+          ✏️ Editar
+        </button>
+
+        <button onclick="excluir('${a.id}')">
+          🗑 Excluir
+        </button>
+      ` : ""}
+    `;
+
+    lista.appendChild(div);
+  });
+}
