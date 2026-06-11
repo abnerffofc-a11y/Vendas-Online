@@ -234,20 +234,38 @@ window.del = async (id) => {
 };
 
 /* EDITAR */
-window.editarAnuncio = async (id, nome, preco, cidade, whatsapp, descricao) => {
+window.editarAnuncio = async (id, nomeAtual, precoAtual, cidadeAtual, whatsappAtual, descricaoAtual) => {
 
-  const novoNome = prompt("Nome:", nome);
-  if (!novoNome) return;
+  const novoNome = prompt("Nome:", nomeAtual);
+  if (novoNome === null) return;
 
-  await updateDoc(doc(db, "anuncios", id), {
-    nome: novoNome,
-    preco,
-    cidade,
-    whatsapp,
-    descricao
-  });
+  const novoPreco = prompt("Preço:", precoAtual);
+  if (novoPreco === null) return;
 
-  irPara("anuncios");
+  const novaCidade = prompt("Cidade:", cidadeAtual);
+  if (novaCidade === null) return;
+
+  const novoWhatsapp = prompt("WhatsApp:", whatsappAtual);
+  if (novoWhatsapp === null) return;
+
+  const novaDescricao = prompt("Descrição:", descricaoAtual);
+
+  try {
+    await updateDoc(doc(db, "anuncios", id), {
+      nome: novoNome,
+      preco: novoPreco,
+      cidade: novaCidade,
+      whatsapp: novoWhatsapp,
+      descricao: novaDescricao
+    });
+
+    alert("Anúncio atualizado com sucesso!");
+    irPara("meus-anuncios");
+
+  } catch (e) {
+    alert("Erro ao editar: " + e.message);
+    console.error(e);
+  }
 };
 
 /* RENDER */
