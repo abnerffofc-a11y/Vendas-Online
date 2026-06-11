@@ -82,6 +82,8 @@ onAuthStateChanged(auth, (user) => {
     capa.style.display = "none";
     if (perfil) perfil.style.display = "block";
 
+    irPara("anuncios");
+
     carregarAnuncios();
   } else {
     appEl.style.display = "none";
@@ -92,12 +94,20 @@ onAuthStateChanged(auth, (user) => {
 });
 
 /* ================= NAVEGAÇÃO ================= */
-
 window.irPara = (id) => {
-  document.querySelectorAll("section").forEach(s => s.style.display = "none");
 
-  const el = document.getElementById(id);
-  if (el) el.style.display = "block";
+  const app = document.getElementById("app");
+
+  // esconde só dentro do app
+  app.querySelectorAll("section").forEach(secao => {
+    secao.style.display = "none";
+  });
+
+  // mostra a seção escolhida
+  const alvo = document.getElementById(id);
+  if (alvo) {
+    alvo.style.display = "block";
+  }
 };
 
 /* ================= ANÚNCIOS ================= */
