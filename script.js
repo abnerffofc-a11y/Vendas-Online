@@ -274,10 +274,23 @@ function render(a, container) {
   const div = document.createElement("div");
   div.className = "produto";
 
+  // 🔥 LIMPA E NORMALIZA O WHATSAPP
+  const num = (a.whatsapp || "").replace(/\D/g, "");
+  const whatsappFinal = num.startsWith("55") ? num : "55" + num;
+
   div.innerHTML = `
     <h3>${a.nome}</h3>
     <p>${a.cidade}</p>
     <p>R$ ${a.preco}</p>
+
+    <a 
+      href="https://wa.me/${whatsappFinal}" 
+      target="_blank"
+      class="btn-whatsapp">
+      📱 Chamar no WhatsApp
+    </a>
+
+    <br><br>
 
     <button onclick="editarAnuncio(
       '${a.id}',
