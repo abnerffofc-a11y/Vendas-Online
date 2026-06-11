@@ -71,7 +71,7 @@ window.sair = async () => {
 };
 
 /* CONTROLE DE TELA (SIMPLES E ESTÁVEL) */
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
   userLogado = user;
 
@@ -79,14 +79,44 @@ onAuthStateChanged(auth, (user) => {
   const login = document.getElementById("login");
   const capa = document.getElementById("capa");
 
+  // PERFIL
+  const perfil = document.getElementById("perfil-usuario");
+  const email = document.getElementById("user-email");
+  const qtd = document.getElementById("qtd-anuncios");
+
   if (user) {
+
+    // MOSTRA APP
     app.style.display = "block";
     login.style.display = "none";
     capa.style.display = "none";
+
+    // MOSTRA PERFIL
+    if (perfil) perfil.style.display = "block";
+    if (email) email.innerText = user.email;
+
+    // CONTAR ANÚNCIOS DO USUÁRIO
+    const snap = await getDocs(collection(db, "anuncios"));
+
+    let total = 0;
+
+    snap.forEach(doc => {
+      if (doc.data().userId === user.uid) {
+        total++;
+      }
+    });
+
+    if (qtd) qtd.innerText = total;
+
   } else {
+
+    // VOLTA TUDO
     app.style.display = "none";
     login.style.display = "block";
     capa.style.display = "block";
+
+    // ESCONDE PERFIL
+    if (perfil) perfil.style.display = "none";
   }
 
 });
