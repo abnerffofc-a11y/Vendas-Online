@@ -1,7 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-import {
-  getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 import {
   getAuth,
@@ -11,11 +8,22 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
+import {
+  getFirestore
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+import {
+  getStorage
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
+
 /* FIREBASE */
 const firebaseConfig = {
-  apiKey: "SUA_KEY",
-  authDomain: "SEU_AUTH",
-  projectId: "SEU_PROJECT"
+  apiKey: "AIzaSyBMRk9KMLlRTvczALZFz4-PNJiU1zd3ARM",
+  authDomain: "my-a-b995c.firebaseapp.com",
+  projectId: "my-a-b995c",
+  storageBucket: "my-a-b995c.firebasestorage.app",
+  messagingSenderId: "143424113510",
+  appId: "1:143424113510:web:68e912516830d48f0cd6a7"
 };
 
 const app = initializeApp(firebaseConfig);
