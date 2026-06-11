@@ -149,7 +149,38 @@ criadoEm:Date.now()
 });
 
 form.reset();
-irPara("anuncios");
+window.irPara = function (pagina) {
+
+  const secoes = document.querySelectorAll("section");
+
+  secoes.forEach(secao => {
+    secao.style.display = "none";
+  });
+
+  const alvo = document.getElementById(pagina);
+
+  if (alvo) {
+    alvo.style.display = "block";
+  }
+
+  // 🔥 GARANTE QUE LOGIN SEMPRE APAREÇA
+  const login = document.querySelector("section[style*='border']");
+  if (login) {
+    login.style.display = "block";
+  }
+
+  if (pagina === "anuncios") {
+    carregarAnuncios();
+  }
+
+  if (pagina === "meus-anuncios") {
+    carregarMeusAnuncios();
+  }
+
+  if (pagina === "favoritos") {
+    carregarFavoritos();
+  }
+};
 });
 
 /* CARREGAR */
@@ -362,7 +393,38 @@ render(anuncio, listaFavoritos);
   
 window.del = async id=>{
 await deleteDoc(doc(db,"anuncios",id));
-irPara("anuncios");
+window.irPara = function (pagina) {
+
+  const secoes = document.querySelectorAll("section");
+
+  secoes.forEach(secao => {
+    secao.style.display = "none";
+  });
+
+  const alvo = document.getElementById(pagina);
+
+  if (alvo) {
+    alvo.style.display = "block";
+  }
+
+  // 🔥 GARANTE QUE LOGIN SEMPRE APAREÇA
+  const login = document.querySelector("section[style*='border']");
+  if (login) {
+    login.style.display = "block";
+  }
+
+  if (pagina === "anuncios") {
+    carregarAnuncios();
+  }
+
+  if (pagina === "meus-anuncios") {
+    carregarMeusAnuncios();
+  }
+
+  if (pagina === "favoritos") {
+    carregarFavoritos();
+  }
+};
 };
 
   window.editarAnuncio = async (
@@ -404,7 +466,38 @@ descricao: novaDescricao
 
 alert("Anúncio atualizado!");
 
-irPara("anuncios");
+window.irPara = function (pagina) {
+
+  const secoes = document.querySelectorAll("section");
+
+  secoes.forEach(secao => {
+    secao.style.display = "none";
+  });
+
+  const alvo = document.getElementById(pagina);
+
+  if (alvo) {
+    alvo.style.display = "block";
+  }
+
+  // 🔥 GARANTE QUE LOGIN SEMPRE APAREÇA
+  const login = document.querySelector("section[style*='border']");
+  if (login) {
+    login.style.display = "block";
+  }
+
+  if (pagina === "anuncios") {
+    carregarAnuncios();
+  }
+
+  if (pagina === "meus-anuncios") {
+    carregarMeusAnuncios();
+  }
+
+  if (pagina === "favoritos") {
+    carregarFavoritos();
+  }
+};
 
 };
   
