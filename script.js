@@ -9,6 +9,7 @@ import {
   doc,
   query,
   where
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 import {
@@ -44,6 +45,33 @@ const storage = getStorage(app);
 let userLogado = null;
 let todosAnuncios = [];
 
+window.irPara = function (pagina) {
+
+  const secoes = document.querySelectorAll("section");
+
+  secoes.forEach(secao => {
+    secao.style.display = "none";
+  });
+
+  const alvo = document.getElementById(pagina);
+
+  if (alvo) {
+    alvo.style.display = "block";
+  }
+
+  if (pagina === "anuncios") {
+    carregarAnuncios();
+  }
+
+  if (pagina === "meus-anuncios") {
+    carregarMeusAnuncios();
+  }
+
+  if (pagina === "favoritos") {
+    carregarFavoritos();
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
 
 const form = document.getElementById("form-anuncio");
@@ -53,6 +81,7 @@ const listaFavoritos = document.getElementById("lista-favoritos");
 const status = document.getElementById("status-login");
 
 carregarAnuncios();
+irPara("inicio");
 
 /* LOGIN STATUS */
 onAuthStateChanged(auth, (user) => {
@@ -120,7 +149,7 @@ criadoEm:Date.now()
 });
 
 form.reset();
-location.reload();
+irPara("anuncios");
 });
 
 /* CARREGAR */
@@ -288,7 +317,7 @@ container.appendChild(div);
 }
 
 /* DELETE */
-window.carregarFavoritos = async function(){
+window.carregarFavoritos = async function(){const listaFavoritos = document.getElementById("lista-favoritos");
 
 if(!userLogado){
 alert("Faça login");
@@ -333,7 +362,7 @@ render(anuncio, listaFavoritos);
   
 window.del = async id=>{
 await deleteDoc(doc(db,"anuncios",id));
-location.reload();
+irPara("anuncios");
 };
 
   window.editarAnuncio = async (
@@ -375,7 +404,7 @@ descricao: novaDescricao
 
 alert("Anúncio atualizado!");
 
-location.reload();
+irPara("anuncios");
 
 };
   
