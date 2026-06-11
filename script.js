@@ -11,6 +11,14 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+import {
   getFirestore
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
@@ -28,10 +36,10 @@ const firebaseConfig = {
   appId: "1:143424113510:web:68e912516830d48f0cd6a7"
 };
 
-const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+let userLogado = null;
 let todosAnuncios = [];
 
 /* LOGIN */
@@ -71,15 +79,37 @@ window.sair = async () => {
 };
 
 /* CONTROLE DE TELA (SIMPLES E ESTÁVEL) */
-onAuthStateChanged(auth, (user) => {
-  console.log("SCRIPT CARREGADO");
+onAuthStateChanged(auth, async (user) => {
+
+  console.log("AUTH:", user);
 
   userLogado = user;
-});
 
-  const app = document.getElementById("app");
+  const appEl = document.getElementById("app");
   const login = document.getElementById("login");
   const capa = document.getElementById("capa");
+
+  const perfil = document.getElementById("perfil-usuario");
+
+  if (user) {
+
+    appEl.style.display = "block";
+    login.style.display = "none";
+    capa.style.display = "none";
+
+    if (perfil) perfil.style.display = "block";
+
+    carregarAnuncios();
+
+  } else {
+
+    appEl.style.display = "none";
+    login.style.display = "block";
+    capa.style.display = "block";
+
+    if (perfil) perfil.style.display = "none";
+  }
+});
 
   // PERFIL
   const perfil = document.getElementById("perfil-usuario");
@@ -189,8 +219,6 @@ window.filtrarAnuncios = function () {
 
   renderAnuncios(filtrados);
 };
-
-    .forEach(a => {
 
       // REUTILIZA SEU CARD ATUAL
       const div = document.createElement("div");
