@@ -1,44 +1,114 @@
 body {
-  font-family: Arial;
   margin: 0;
-  background: #f4f6f9;
+  font-family: Arial, sans-serif;
+  background: #f2f4f7;
 }
 
-.hero {
-  text-align: center;
-  padding: 40px;
-  background: white;
-}
-
-.container {
-  padding: 15px;
-}
-
+/* HEADER FIXO */
 header {
-  background: black;
+  position: sticky;
+  top: 0;
+  background: #111;
   color: white;
   padding: 10px;
-  text-align: center;
+  z-index: 10;
 }
 
 nav a {
   color: white;
-  margin: 10px;
+  margin: 0 10px;
   text-decoration: none;
+  font-weight: bold;
 }
 
+/* CAPA */
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg,#111,#333);
+  color: white;
+}
+
+/* CONTAINER */
+.container {
+  padding: 15px;
+}
+
+/* GRID OLX */
+#lista-anuncios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap: 15px;
+}
+
+/* CARD OLX */
 .produto {
   background: white;
+  border-radius: 10px;
   padding: 10px;
-  margin: 10px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: 0.2s;
+}
+
+.produto:hover {
+  transform: scale(1.02);
+}
+
+/* IMAGEM FUTURA */
+.produto img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* PREÇO */
+.produto h3 {
+  margin: 5px 0;
+  color: #222;
+}
+
+/* WHATSAPP BUTTON */
+.btn-whatsapp {
+  display: block;
+  background: #25D366;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+/* BOTÕES */
+button {
+  margin-top: 5px;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* FORM */
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* GRID FORM */
+form {
+  background: white;
+  padding: 10px;
   border-radius: 10px;
 }
 
-.btn-whatsapp {
-  background: #25D366;
-  color: white;
-  padding: 8px;
-  display: inline-block;
-  border-radius: 8px;
-  text-decoration: none;
+/* ANIMAÇÃO SUAVE */
+.hide {
+  display: none;
 }
