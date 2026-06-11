@@ -67,26 +67,36 @@ const num = (a.whatsapp||"").replace(/\D/g,"");
 const div = document.createElement("div");
 div.className="produto";
 
-div.innerHTML=`
-<h3>${a.nome}</h3>
-<p>${a.cidade}</p>
-<p>R$ ${a.preco}</p>
+div.innerHTML = `
+  <h3>${a.nome}</h3>
 
-<a class="btn-whatsapp"
-href="https://wa.me/${num}"
-target="_blank">
-WhatsApp
-</a>
+  <p>📍 ${a.cidade}</p>
 
-<br><br>
+  <p><strong>R$ ${a.preco}</strong></p>
 
-<button onclick="favoritar('${a.id}')">❤️ Favoritar</button>
+  <a class="btn-whatsapp"
+     href="https://wa.me/${num}?text=${encodeURIComponent('Olá vi seu anúncio no marketplace')}"
+     target="_blank">
+     📱 WhatsApp
+  </a>
 
-${userLogado?.uid===a.userId?`
-<br><br>
-<button onclick="excluir('${a.id}')">🗑 Excluir</button>
-<button onclick="editar('${a.id}','${a.nome}','${a.preco}','${a.cidade}','${a.whatsapp}','${a.descricao||""}')">✏️ Editar</button>
-`:``}
+  <br><br>
+
+  <button onclick="favoritar('${a.id}')">
+    ❤️ Favoritar
+  </button>
+
+  ${userLogado?.uid === a.userId ? `
+    <br><br>
+
+    <button onclick="editar('${a.id}','${a.nome}','${a.preco}','${a.cidade}','${a.whatsapp}','${a.descricao || ""}')">
+      ✏️ Editar
+    </button>
+
+    <button onclick="excluir('${a.id}')">
+      🗑 Excluir
+    </button>
+  ` : ""}
 `;
 
 lista.appendChild(div);
