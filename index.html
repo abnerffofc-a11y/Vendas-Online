@@ -14,13 +14,13 @@
 <h1>A&A Marketplace</h1>
 
 <nav>
-<a href="#inicio">Início</a>
-<a href="#categorias">Categorias</a>
-<a href="#anuncios">Anúncios</a>
-<a href="#anunciar">Anunciar</a>
-<a href="#meus-anuncios">Meus Anúncios</a>
-<a href="#sobre">Sobre</a>
-<a href="#contato">Contato</a>
+<a href="#" onclick="irPara('inicio')">Início</a>
+<a href="#" onclick="irPara('categorias')">Categorias</a>
+<a href="#" onclick="irPara('anuncios')">Anúncios</a>
+<a href="#" onclick="irPara('anunciar')">Anunciar</a>
+<a href="#" onclick="irPara('meus-anuncios')">Meus Anúncios</a>
+<a href="#" onclick="irPara('sobre')">Sobre</a>
+<a href="#" onclick="irPara('contato')">Contato</a>
 </nav>
 
 </div>
@@ -62,8 +62,9 @@
 
 <!-- ANÚNCIOS -->
 <section id="anuncios" class="container">
-<section id="favoritos" class="container">
+<h2>🛒 Anúncios</h2>
 
+<section id="favoritos" class="container" style="display:none;">
 <h2>❤️ Meus Favoritos</h2>
 
 <button onclick="carregarFavoritos()">
@@ -71,10 +72,7 @@ Atualizar Favoritos
 </button>
 
 <div id="lista-favoritos"></div>
-
 </section>
-    
-<h2>🛒 Anúncios</h2>
 
 <!-- 🔎 BUSCA -->
 <div class="filtros">
