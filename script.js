@@ -1,17 +1,29 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import {
-getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, where, updateDoc
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  query,
+  where,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 import {
-getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
 /* FIREBASE */
 const firebaseConfig = {
-apiKey: "SUA_CHAVE",
-authDomain: "SEU_DOMINIO",
-projectId: "SEU_PROJETO"
+  apiKey: "SUA_CHAVE",
+  authDomain: "SEU_DOMINIO",
+  projectId: "SEU_PROJETO"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -20,52 +32,41 @@ const auth = getAuth(app);
 
 let userLogado = null;
 
-/* UI CONTROL */
-function mostrar(el){ el.classList.remove("hide"); }
-function esconder(el){ el.classList.add("hide"); }
-
-window.irPara = (pagina) => {
-
-document.querySelectorAll("section").forEach(s => s.classList.add("hide"));
-
-document.getElementById(pagina).classList.remove("hide");
-};
-
-/* AUTH */
-window.cadastrar = (e,s) => createUserWithEmailAndPassword(auth,e,s);
-window.entrar = (e,s) => signInWithEmailAndPassword(auth,e,s);
-window.sair = () => signOut(auth);
+/* UI */
+function mostrar(id){ document.getElementById(id).style.display="block"; }
+function esconder(id){ document.getElementById(id).style.display="none"; }
 
 /* LOGIN STATE */
 onAuthStateChanged(auth,(user)=>{
 
 userLogado = user;
 
-const capa = document.getElementById("capa");
-const login = document.getElementById("login-section");
-const anuncios = document.getElementById("anuncios");
-
 if(user){
-esconder(capa);
-esconder(login);
-mostrar(anuncios);
-carregarAnuncios();
+  esconder("capa");
+  esconder("login-section");
+  mostrar("anuncios");
 }else{
-mostrar(capa);
-mostrar(login);
-esconder(anuncios);
+  mostrar("capa");
+  mostrar("login-section");
+  esconder("anuncios");
 }
 });
+
+/* AUTH */
+window.cadastrar = (e,s)=>createUserWithEmailAndPassword(auth,e,s);
+window.entrar = (e,s)=>signInWithEmailAndPassword(auth,e,s);
+window.sair = ()=>signOut(auth);
 
 /* ANUNCIOS */
 window.carregarAnuncios = async () => {
 
-const snap = await getDocs(collection(db,"anuncios"));
 const lista = document.getElementById("lista-anuncios");
 lista.innerHTML="";
 
+const snap = await getDocs(collection(db,"anuncios"));
+
 snap.forEach(d=>{
-const a = d.data();
+const a = {id:d.id,...d.data()};
 
 const num = (a.whatsapp||"").replace(/\D/g,"");
 const w = num.startsWith("55")?num:"55"+num;
@@ -78,11 +79,21 @@ div.innerHTML=`
 <p>${a.cidade}</p>
 <p>R$ ${a.preco}</p>
 
-<a class="btn-whatsapp"
+<a target="_blank"
 href="https://wa.me/${w}?text=${encodeURIComponent('Olá vi seu anúncio no A&A Marketplace')}"
-target="_blank">
+class="btn-whatsapp">
 WhatsApp
 </a>
+
+<br><br>
+
+<button onclick="favoritar('${a.id}')">❤️ Favoritar</button>
+
+${userLogado?.uid===a.userId?`
+<br><br>
+<button onclick="editar('${a.id}','${a.nome}','${a.preco}','${a.cidade}','${a.whatsapp}','${a.descricao||""}')">✏️ Editar</button>
+<button onclick="excluir('${a.id}')">🗑 Excluir</button>
+`:``}
 `;
 
 lista.appendChild(div);
@@ -93,7 +104,7 @@ lista.appendChild(div);
 document.getElementById("form-anuncio").addEventListener("submit",async(e)=>{
 e.preventDefault();
 
-if(!userLogado) return alert("Login necessário");
+if(!userLogado) return alert("Faça login");
 
 await addDoc(collection(db,"anuncios"),{
 nome:nome.value,
@@ -107,3 +118,42 @@ userId:userLogado.uid
 e.target.reset();
 carregarAnuncios();
 });
+
+/* FAVORITOS */
+window.favoritar = async (id) => {
+
+if(!userLogado) return alert("Faça login");
+
+await addDoc(collection(db,"favoritos"),{
+userId:userLogado.uid,
+anuncioId:id
+});
+
+alert("Favoritado!");
+};
+
+/* EXCLUIR */
+window.excluir = async (id) => {
+await deleteDoc(doc(db,"anuncios",id));
+carregarAnuncios();
+};
+
+/* EDITAR */
+window.editar = async (id,n,p,c,w,d)=>{
+
+const novoNome = prompt("Nome",n);
+const novoPreco = prompt("Preço",p);
+const novaCidade = prompt("Cidade",c);
+const novoW = prompt("WhatsApp",w);
+const novaDesc = prompt("Descrição",d);
+
+await updateDoc(doc(db,"anuncios",id),{
+nome:novoNome,
+preco:novoPreco,
+cidade:novaCidade,
+whatsapp:novoW,
+descricao:novaDesc
+});
+
+carregarAnuncios();
+};
