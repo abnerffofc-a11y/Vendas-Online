@@ -88,9 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const listaMeus = document.getElementById("lista-meus-anuncios");
 
   carregarAnuncios();
-  irPara("inicio");
 
-document.getElementById("capa").style.display = "block";
 document.getElementById("anuncios").style.display = "none";
 
 const login = document.getElementById("login-section");
@@ -100,30 +98,33 @@ if (login) login.style.display = "block";
 onAuthStateChanged(auth, (user) => {
 
   userLogado = user;
-  status.innerText = user ? "Logado: " + user.email : "Você não está logado";
+
+  status.innerText = user
+    ? "Logado: " + user.email
+    : "Você não está logado";
 
   const capa = document.getElementById("capa");
   const login = document.getElementById("login-section");
   const anuncios = document.getElementById("anuncios");
+  const categorias = document.getElementById("categorias");
 
   if (user) {
 
-    // 🔥 LOGADO: some capa e login
+    // 🔥 LOGADO
     if (capa) capa.style.display = "none";
     if (login) login.style.display = "none";
-
-    // mostra marketplace
     if (anuncios) anuncios.style.display = "block";
+    if (categorias) categorias.style.display = "block";
 
     carregarAnuncios();
 
   } else {
 
-    // 🔥 DESLOGADO: mostra capa e login
+    // 🔥 DESLOGADO
     if (capa) capa.style.display = "block";
     if (login) login.style.display = "block";
-
     if (anuncios) anuncios.style.display = "none";
+    if (categorias) categorias.style.display = "none";
   }
 });
 
