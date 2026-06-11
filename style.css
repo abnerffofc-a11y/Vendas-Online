@@ -4,19 +4,16 @@ body {
   background: #f4f6f9;
 }
 
-/* CAPA */
 .hero {
   text-align: center;
-  padding: 50px;
+  padding: 40px;
   background: white;
 }
 
-/* CONTAINER */
 .container {
   padding: 15px;
 }
 
-/* HEADER */
 header {
   background: black;
   color: white;
@@ -30,7 +27,6 @@ nav a {
   text-decoration: none;
 }
 
-/* CARD */
 .produto {
   background: white;
   padding: 10px;
@@ -38,22 +34,11 @@ nav a {
   border-radius: 10px;
 }
 
-/* BOTÃO WHATS */
 .btn-whatsapp {
-  display: inline-block;
   background: #25D366;
   color: white;
   padding: 8px;
+  display: inline-block;
   border-radius: 8px;
   text-decoration: none;
-}
-
-/* ANIMAÇÃO */
-.show {
-  opacity: 1;
-  transition: 0.3s;
-}
-
-.hide {
-  display: none;
 }
