@@ -71,9 +71,11 @@ window.sair = async () => {
 };
 
 /* CONTROLE DE TELA (SIMPLES E ESTÁVEL) */
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, (user) => {
+  console.log("AUTH STATE:", user);
 
   userLogado = user;
+});
 
   const app = document.getElementById("app");
   const login = document.getElementById("login");
