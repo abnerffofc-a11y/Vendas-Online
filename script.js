@@ -147,9 +147,20 @@ onAuthStateChanged(auth, (user) => {
   };
 
   window.sair = async () => {
-    await signOut(auth);
-    alert("Saiu da conta");
-  };
+
+  await signOut(auth);
+
+  alert("Saiu da conta");
+
+  // 🔥 VOLTA PARA ESTADO INICIAL
+  const capa = document.getElementById("capa");
+  const login = document.getElementById("login-section");
+  const anuncios = document.getElementById("anuncios");
+
+  if (capa) capa.style.display = "block";
+  if (login) login.style.display = "block";
+  if (anuncios) anuncios.style.display = "none";
+};
 
   /* UPLOAD */
   async function uploadImagem(file) {
