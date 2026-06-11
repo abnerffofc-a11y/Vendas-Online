@@ -278,6 +278,17 @@ function render(a, container) {
     <h3>${a.nome}</h3>
     <p>${a.cidade}</p>
     <p>R$ ${a.preco}</p>
+
+    <button onclick="editarAnuncio(
+      '${a.id}',
+      '${a.nome || ""}',
+      '${a.preco || ""}',
+      '${a.cidade || ""}',
+      '${a.whatsapp || ""}',
+      '${a.descricao || ""}'
+    )">✏️ Editar</button>
+
+    <button onclick="del('${a.id}')">🗑 Excluir</button>
   `;
 
   container.appendChild(div);
