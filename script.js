@@ -72,7 +72,7 @@ window.sair = async () => {
 
 /* CONTROLE DE TELA (SIMPLES E ESTÁVEL) */
 onAuthStateChanged(auth, (user) => {
-  console.log("AUTH STATE:", user);
+  console.log("SCRIPT CARREGADO");
 
   userLogado = user;
 });
