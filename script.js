@@ -1,14 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  query,
-  where,
-  updateDoc
+  getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 import {
@@ -21,9 +13,9 @@ import {
 
 /* FIREBASE */
 const firebaseConfig = {
-  apiKey: "SUA_CHAVE",
-  authDomain: "SEU_DOMINIO",
-  projectId: "SEU_PROJETO"
+  apiKey: "SUA_KEY",
+  authDomain: "SEU_AUTH",
+  projectId: "SEU_PROJECT"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -32,33 +24,35 @@ const auth = getAuth(app);
 
 let userLogado = null;
 
-/* UI */
-function mostrar(id){ document.getElementById(id).style.display="block"; }
-function esconder(id){ document.getElementById(id).style.display="none"; }
+/* LOGIN */
+window.cadastrar = (e,s)=>createUserWithEmailAndPassword(auth,e,s);
+window.entrar = (e,s)=>signInWithEmailAndPassword(auth,e,s);
+window.sair = ()=>signOut(auth);
 
-/* LOGIN STATE */
+/* CONTROLE DE TELA (SIMPLES E ESTÁVEL) */
 onAuthStateChanged(auth,(user)=>{
 
 userLogado = user;
 
 if(user){
-  esconder("capa");
-  esconder("login-section");
-  mostrar("anuncios");
+document.getElementById("capa").style.display="none";
+document.getElementById("login-section").style.display="none";
+document.getElementById("anuncios").style.display="block";
 }else{
-  mostrar("capa");
-  mostrar("login-section");
-  esconder("anuncios");
+document.getElementById("capa").style.display="block";
+document.getElementById("login-section").style.display="block";
+document.getElementById("anuncios").style.display="none";
 }
 });
 
-/* AUTH */
-window.cadastrar = (e,s)=>createUserWithEmailAndPassword(auth,e,s);
-window.entrar = (e,s)=>signInWithEmailAndPassword(auth,e,s);
-window.sair = ()=>signOut(auth);
+/* NAVEGAÇÃO */
+window.irPara = (id)=>{
+document.querySelectorAll("section").forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
+};
 
-/* ANUNCIOS */
-window.carregarAnuncios = async () => {
+/* CARREGAR ANÚNCIOS */
+window.carregarAnuncios = async ()=>{
 
 const lista = document.getElementById("lista-anuncios");
 lista.innerHTML="";
@@ -69,7 +63,6 @@ snap.forEach(d=>{
 const a = {id:d.id,...d.data()};
 
 const num = (a.whatsapp||"").replace(/\D/g,"");
-const w = num.startsWith("55")?num:"55"+num;
 
 const div = document.createElement("div");
 div.className="produto";
@@ -79,9 +72,9 @@ div.innerHTML=`
 <p>${a.cidade}</p>
 <p>R$ ${a.preco}</p>
 
-<a target="_blank"
-href="https://wa.me/${w}?text=${encodeURIComponent('Olá vi seu anúncio no A&A Marketplace')}"
-class="btn-whatsapp">
+<a class="btn-whatsapp"
+href="https://wa.me/${num}"
+target="_blank">
 WhatsApp
 </a>
 
@@ -91,8 +84,8 @@ WhatsApp
 
 ${userLogado?.uid===a.userId?`
 <br><br>
-<button onclick="editar('${a.id}','${a.nome}','${a.preco}','${a.cidade}','${a.whatsapp}','${a.descricao||""}')">✏️ Editar</button>
 <button onclick="excluir('${a.id}')">🗑 Excluir</button>
+<button onclick="editar('${a.id}','${a.nome}','${a.preco}','${a.cidade}','${a.whatsapp}','${a.descricao||""}')">✏️ Editar</button>
 `:``}
 `;
 
@@ -120,20 +113,16 @@ carregarAnuncios();
 });
 
 /* FAVORITOS */
-window.favoritar = async (id) => {
-
-if(!userLogado) return alert("Faça login");
-
+window.favoritar = async (id)=>{
 await addDoc(collection(db,"favoritos"),{
 userId:userLogado.uid,
 anuncioId:id
 });
-
 alert("Favoritado!");
 };
 
 /* EXCLUIR */
-window.excluir = async (id) => {
+window.excluir = async (id)=>{
 await deleteDoc(doc(db,"anuncios",id));
 carregarAnuncios();
 };
@@ -141,18 +130,18 @@ carregarAnuncios();
 /* EDITAR */
 window.editar = async (id,n,p,c,w,d)=>{
 
-const novoNome = prompt("Nome",n);
-const novoPreco = prompt("Preço",p);
-const novaCidade = prompt("Cidade",c);
-const novoW = prompt("WhatsApp",w);
-const novaDesc = prompt("Descrição",d);
+const nn = prompt("Nome",n);
+const np = prompt("Preço",p);
+const nc = prompt("Cidade",c);
+const nw = prompt("WhatsApp",w);
+const nd = prompt("Descrição",d);
 
 await updateDoc(doc(db,"anuncios",id),{
-nome:novoNome,
-preco:novoPreco,
-cidade:novaCidade,
-whatsapp:novoW,
-descricao:novaDesc
+nome:nn,
+preco:np,
+cidade:nc,
+whatsapp:nw,
+descricao:nd
 });
 
 carregarAnuncios();
