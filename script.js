@@ -8,7 +8,7 @@ import {
   deleteDoc,
   doc,
   query,
-  where
+  where,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
@@ -27,7 +27,7 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
 
-/* FIREBASE CONFIG */
+/* FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyBMRk9KMLlRTvczALZFz4-PNJiU1zd3ARM",
   authDomain: "my-a-b995c.firebaseapp.com",
@@ -45,6 +45,7 @@ const storage = getStorage(app);
 let userLogado = null;
 let todosAnuncios = [];
 
+/* NAVEGAÇÃO (ÚNICA - CORRETA) */
 window.irPara = function (pagina) {
 
   const secoes = document.querySelectorAll("section");
@@ -55,450 +56,191 @@ window.irPara = function (pagina) {
 
   const alvo = document.getElementById(pagina);
 
-  if (alvo) {
-    alvo.style.display = "block";
-  }
+  if (alvo) alvo.style.display = "block";
 
-  if (pagina === "anuncios") {
-    carregarAnuncios();
-  }
-
-  if (pagina === "meus-anuncios") {
-    carregarMeusAnuncios();
-  }
-
-  if (pagina === "favoritos") {
-    carregarFavoritos();
-  }
+  if (pagina === "anuncios") carregarAnuncios();
+  if (pagina === "meus-anuncios") carregarMeusAnuncios();
+  if (pagina === "favoritos") carregarFavoritos();
 };
 
 document.addEventListener("DOMContentLoaded", () => {
 
-const form = document.getElementById("form-anuncio");
-const lista = document.getElementById("lista-anuncios");
-const listaMeus = document.getElementById("lista-meus-anuncios");
-const listaFavoritos = document.getElementById("lista-favoritos");
-const status = document.getElementById("status-login");
+  const form = document.getElementById("form-anuncio");
+  const lista = document.getElementById("lista-anuncios");
+  const listaMeus = document.getElementById("lista-meus-anuncios");
 
-carregarAnuncios();
-irPara("inicio");
+  carregarAnuncios();
+  irPara("inicio");
 
-/* LOGIN STATUS */
-onAuthStateChanged(auth, (user) => {
+  /* LOGIN STATUS */
+  onAuthStateChanged(auth, (user) => {
     userLogado = user;
-    status.innerText = user ? "Logado: " + user.email : "Você não está logado";
-});
-
-/* AUTH */window.cadastrar = async (email, senha) => {
-  try {
-    await createUserWithEmailAndPassword(auth, email, senha);
-    alert("Cadastro realizado com sucesso!");
-  } catch (erro) {
-    alert("ERRO: " + erro.message);
-    console.error(erro);
-  }
-};
-
-window.entrar = async (email, senha) => {
-  try {
-    await signInWithEmailAndPassword(auth, email, senha);
-    alert("Login realizado com sucesso!");
-  } catch (erro) {
-    alert("ERRO: " + erro.message);
-    console.error(erro);
-  }
-};
-
-window.sair = async () => {
-  await signOut(auth);
-  alert("Saiu da conta");
-};
-
-/* UPLOAD */
-async function uploadImagem(file){
-const r = ref(storage,"anuncios/"+Date.now()+"_"+file.name);
-await uploadBytes(r,file);
-return await getDownloadURL(r);
-}
-
-/* CRIAR ANÚNCIO */
-form.addEventListener("submit", async e=>{
-e.preventDefault();
-
-if(!userLogado) return alert("Faça login");
-
-let foto = "";
-const file = document.getElementById("foto").files[0];
-
-if(file) foto = await uploadImagem(file);
-
-await addDoc(collection(db,"anuncios"),{
-nome:nome.value,
-categoria:categoria.value,
-preco:preco.value,
-cidade:cidade.value,
-whatsapp:whatsapp.value,
-descricao:descricao.value,
-foto,
-
-destaque: document.getElementById("destaque").checked,
-  
-userId:userLogado.uid,
-userEmail:userLogado.email,
-criadoEm:Date.now()
-});
-
-form.reset();
-window.irPara = function (pagina) {
-
-  const secoes = document.querySelectorAll("section");
-
-  secoes.forEach(secao => {
-    secao.style.display = "none";
+    document.getElementById("status-login").innerText =
+      user ? "Logado: " + user.email : "Você não está logado";
   });
 
-  const alvo = document.getElementById(pagina);
+  /* AUTH */
+  window.cadastrar = async (email, senha) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, senha);
+      alert("Cadastro realizado!");
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
-  if (alvo) {
-    alvo.style.display = "block";
+  window.entrar = async (email, senha) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, senha);
+      alert("Login realizado!");
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  window.sair = async () => {
+    await signOut(auth);
+    alert("Saiu da conta");
+  };
+
+  /* UPLOAD */
+  async function uploadImagem(file) {
+    const r = ref(storage, "anuncios/" + Date.now() + "_" + file.name);
+    await uploadBytes(r, file);
+    return await getDownloadURL(r);
   }
 
-  // 🔥 GARANTE QUE LOGIN SEMPRE APAREÇA
-  const login = document.querySelector("section[style*='border']");
-  if (login) {
-    login.style.display = "block";
-  }
+  /* CRIAR ANÚNCIO */
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  if (pagina === "anuncios") {
-    carregarAnuncios();
-  }
+    if (!userLogado) return alert("Faça login");
 
-  if (pagina === "meus-anuncios") {
-    carregarMeusAnuncios();
-  }
+    let foto = "";
+    const file = document.getElementById("foto").files[0];
 
-  if (pagina === "favoritos") {
-    carregarFavoritos();
-  }
-};
+    if (file) foto = await uploadImagem(file);
+
+    await addDoc(collection(db, "anuncios"), {
+      nome: nome.value,
+      categoria: categoria.value,
+      preco: preco.value,
+      cidade: cidade.value,
+      whatsapp: whatsapp.value,
+      descricao: descricao.value,
+      foto,
+      destaque: document.getElementById("destaque").checked,
+      userId: userLogado.uid,
+      userEmail: userLogado.email,
+      criadoEm: Date.now()
+    });
+
+    form.reset();
+    irPara("anuncios");
+  });
+
 });
 
 /* CARREGAR */
-async function carregarAnuncios(){
+async function carregarAnuncios() {
 
-const snap = await getDocs(collection(db,"anuncios"));
+  const snap = await getDocs(collection(db, "anuncios"));
 
-lista.innerHTML = "";
-todosAnuncios = [];
+  todosAnuncios = [];
 
-snap.forEach(d => {
-    const a = {
-        id: d.id,
-        ...d.data()
-    };
+  snap.forEach(d => {
+    todosAnuncios.push({ id: d.id, ...d.data() });
+  });
 
-    todosAnuncios.push(a);
-});
+  todosAnuncios.sort((a, b) =>
+    (b.destaque - a.destaque) || (b.criadoEm - a.criadoEm)
+  );
 
-/* ⭐ Destaques primeiro */
-todosAnuncios.sort((a,b) => {
+  const lista = document.getElementById("lista-anuncios");
+  lista.innerHTML = "";
 
-    if(a.destaque && !b.destaque) return -1;
-
-    if(!a.destaque && b.destaque) return 1;
-
-    return b.criadoEm - a.criadoEm;
-
-});
-
-/* Renderizar */
-todosAnuncios.forEach(a => {
-    render(a, lista);
-});
-
+  todosAnuncios.forEach(a => render(a, lista));
 }
 
-/* FILTRO */
-window.filtrarAnuncios = function(){
+/* FAVORITOS */
+window.carregarFavoritos = async function () {
 
-const nome = (buscaNome.value || "").toLowerCase();
-const cidade = (buscaCidade.value || "").toLowerCase();
-const categoria = (buscaCategoria.value || "");
+  const listaFavoritos = document.getElementById("lista-favoritos");
 
-const precoMin = Number(precoMin.value) || 0;
-const precoMax = Number(precoMax.value) || Infinity;
+  listaFavoritos.innerHTML = "";
 
-lista.innerHTML = "";
+  if (!userLogado) return alert("Faça login");
 
-todosAnuncios
-.filter(a =>
+  const q = query(
+    collection(db, "favoritos"),
+    where("userId", "==", userLogado.uid)
+  );
 
-(!nome ||
-a.nome.toLowerCase().includes(nome))
+  const favs = await getDocs(q);
 
-&&
+  const ids = [];
 
-(!cidade ||
-a.cidade.toLowerCase().includes(cidade))
+  favs.forEach(f => ids.push(f.data().anuncioId));
 
-&&
+  const anuncios = await getDocs(collection(db, "anuncios"));
 
-(!categoria ||
-a.categoria === categoria)
-
-&&
-
-(Number(a.preco) >= precoMin)
-
-&&
-
-(Number(a.preco) <= precoMax)
-
-)
-.forEach(a => render(a, lista));
-
+  anuncios.forEach(d => {
+    const a = { id: d.id, ...d.data() };
+    if (ids.includes(a.id)) render(a, listaFavoritos);
+  });
 };
 
 /* MEUS ANÚNCIOS */
-window.carregarMeusAnuncios = async function(){
+window.carregarMeusAnuncios = async function () {
 
-const snap = await getDocs(collection(db,"anuncios"));
+  const listaMeus = document.getElementById("lista-meus-anuncios");
 
-listaMeus.innerHTML="";
+  listaMeus.innerHTML = "";
 
-snap.forEach(d=>{
-const a = {id:d.id,...d.data()};
-if(a.userId===userLogado?.uid){
-render(a,listaMeus,true);
-}
-});
+  const snap = await getDocs(collection(db, "anuncios"));
+
+  snap.forEach(d => {
+    const a = { id: d.id, ...d.data() };
+    if (a.userId === userLogado?.uid) {
+      render(a, listaMeus, true);
+    }
+  });
+};
+
+/* DELETE */
+window.del = async (id) => {
+  await deleteDoc(doc(db, "anuncios", id));
+  irPara("anuncios");
+};
+
+/* EDITAR */
+window.editarAnuncio = async (id, nome, preco, cidade, whatsapp, descricao) => {
+
+  const novoNome = prompt("Nome:", nome);
+  if (!novoNome) return;
+
+  await updateDoc(doc(db, "anuncios", id), {
+    nome: novoNome,
+    preco,
+    cidade,
+    whatsapp,
+    descricao
+  });
+
+  irPara("anuncios");
 };
 
 /* RENDER */
-function render(a,container,meus=false){
+function render(a, container) {
 
-const div = document.createElement("div");
-div.className="produto";
+  const div = document.createElement("div");
+  div.className = "produto";
 
-const num=(a.whatsapp||"").replace(/\D/g,"");
+  div.innerHTML = `
+    <h3>${a.nome}</h3>
+    <p>${a.cidade}</p>
+    <p>R$ ${a.preco}</p>
+  `;
 
-div.innerHTML=`
-${a.foto?`<img src="${a.foto}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px">`:``}
-
-${a.destaque ? `
-<div class="badge-destaque">
-⭐ ANÚNCIO EM DESTAQUE
-</div>
-` : ""}
-
-<h3>${a.nome}</h3>
-
-<p>📂 ${a.categoria || "Sem categoria"}</p>
-
-<p>${a.descricao || ""}</p>
-
-<p>📍 ${a.cidade}</p>
-
-<p class="preco">
-R$ ${a.preco}
-</p>
-
-<a
-href="https://wa.me/${num}"
-target="_blank"
-class="btn-whatsapp">
-📱 Chamar no WhatsApp
-</a>
-
-<br><br>
-
-<button
-class="btn-favorito"
-onclick="favoritar('${a.id}')">
-❤️ Favoritar
-</button>
-
-<br><br>
-
-${userLogado?.uid===a.userId?`
-
-<button
-class="btn-editar"
-onclick="editarAnuncio(
-'${a.id}',
-'${a.nome}',
-'${a.preco}',
-'${a.cidade}',
-'${a.whatsapp}',
-'${a.descricao || ""}'
-)">
-✏️ Editar
-</button>
-
-<button
-class="btn-excluir"
-onclick="del('${a.id}')">
-🗑 Excluir
-</button>
-
-`:``}
-`;
-
-container.appendChild(div);
+  container.appendChild(div);
 }
-
-/* DELETE */
-window.carregarFavoritos = async function(){const listaFavoritos = document.getElementById("lista-favoritos");
-
-if(!userLogado){
-alert("Faça login");
-return;
-}
-
-listaFavoritos.innerHTML = "";
-
-const favoritosRef = collection(db,"favoritos");
-
-const q = query(
-favoritosRef,
-where("userId","==",userLogado.uid)
-);
-
-const favoritos = await getDocs(q);
-
-const ids = [];
-
-favoritos.forEach(f=>{
-ids.push(f.data().anuncioId);
-});
-
-const anuncios = await getDocs(
-collection(db,"anuncios")
-);
-
-anuncios.forEach(docItem=>{
-
-const anuncio = {
-id: docItem.id,
-...docItem.data()
-};
-
-if(ids.includes(anuncio.id)){
-render(anuncio, listaFavoritos);
-}
-
-});
-
-};
-  
-window.del = async id=>{
-await deleteDoc(doc(db,"anuncios",id));
-window.irPara = function (pagina) {
-
-  const secoes = document.querySelectorAll("section");
-
-  secoes.forEach(secao => {
-    secao.style.display = "none";
-  });
-
-  const alvo = document.getElementById(pagina);
-
-  if (alvo) {
-    alvo.style.display = "block";
-  }
-
-  // 🔥 GARANTE QUE LOGIN SEMPRE APAREÇA
-  const login = document.querySelector("section[style*='border']");
-  if (login) {
-    login.style.display = "block";
-  }
-
-  if (pagina === "anuncios") {
-    carregarAnuncios();
-  }
-
-  if (pagina === "meus-anuncios") {
-    carregarMeusAnuncios();
-  }
-
-  if (pagina === "favoritos") {
-    carregarFavoritos();
-  }
-};
-};
-
-  window.editarAnuncio = async (
-id,
-nomeAtual,
-precoAtual,
-cidadeAtual,
-whatsappAtual,
-descricaoAtual
-) => {
-
-const novoNome =
-prompt("Nome do produto:", nomeAtual);
-
-if(!novoNome) return;
-
-const novoPreco =
-prompt("Preço:", precoAtual);
-
-const novaCidade =
-prompt("Cidade:", cidadeAtual);
-
-const novoWhatsapp =
-prompt("WhatsApp:", whatsappAtual);
-
-const novaDescricao =
-prompt("Descrição:", descricaoAtual);
-
-await updateDoc(
-doc(db,"anuncios",id),
-{
-nome: novoNome,
-preco: novoPreco,
-cidade: novaCidade,
-whatsapp: novoWhatsapp,
-descricao: novaDescricao
-}
-);
-
-alert("Anúncio atualizado!");
-
-window.irPara = function (pagina) {
-
-  const secoes = document.querySelectorAll("section");
-
-  secoes.forEach(secao => {
-    secao.style.display = "none";
-  });
-
-  const alvo = document.getElementById(pagina);
-
-  if (alvo) {
-    alvo.style.display = "block";
-  }
-
-  // 🔥 GARANTE QUE LOGIN SEMPRE APAREÇA
-  const login = document.querySelector("section[style*='border']");
-  if (login) {
-    login.style.display = "block";
-  }
-
-  if (pagina === "anuncios") {
-    carregarAnuncios();
-  }
-
-  if (pagina === "meus-anuncios") {
-    carregarMeusAnuncios();
-  }
-
-  if (pagina === "favoritos") {
-    carregarFavoritos();
-  }
-};
-
-};
-  
-});
