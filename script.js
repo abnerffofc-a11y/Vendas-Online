@@ -30,19 +30,24 @@ window.entrar = (e,s)=>signInWithEmailAndPassword(auth,e,s);
 window.sair = ()=>signOut(auth);
 
 /* CONTROLE DE TELA (SIMPLES E ESTÁVEL) */
-onAuthStateChanged(auth,(user)=>{
+onAuthStateChanged(auth, (user) => {
 
-userLogado = user;
+  userLogado = user;
 
-if(user){
-document.getElementById("capa").style.display="none";
-document.getElementById("login-section").style.display="none";
-document.getElementById("anuncios").style.display="block";
-}else{
-document.getElementById("capa").style.display="block";
-document.getElementById("login-section").style.display="block";
-document.getElementById("anuncios").style.display="none";
-}
+  const app = document.getElementById("app");
+  const login = document.getElementById("login");
+  const capa = document.getElementById("capa");
+
+  if (user) {
+    app.style.display = "block";
+    login.style.display = "none";
+    capa.style.display = "none";
+  } else {
+    app.style.display = "none";
+    login.style.display = "block";
+    capa.style.display = "block";
+  }
+
 });
 
 /* NAVEGAÇÃO */
