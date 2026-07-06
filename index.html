@@ -46,99 +46,101 @@
 
 <header>
 
-<div class="container">
+    <div class="container header-container">
 
-<div class="logo">
+        <!-- Menu Mobile -->
 
-<img src="assets/logo.png" alt="Logo">
+        <button id="menuToggle" class="menu-toggle">
 
-<h2>A&A Digital Store</h2>
+            <i class="bi bi-list"></i>
 
-</div>
+        </button>
 
-<nav>
+        <!-- Logo -->
 
-<ul>
+        <div class="logo">
 
-<li>
-<a href="#">Início</a>
-</li>
+            <img src="assets/logo.png" alt="Logo">
 
-<li>
-<a href="#">Categorias</a>
-</li>
+            <h2>A&A Digital Store</h2>
 
-<li>
-<a href="#">Promoções</a>
-</li>
+        </div>
 
-<li>
-<a href="#">Vender</a>
-</li>
+        <!-- Pesquisa -->
 
-<li>
-<a href="#">Contato</a>
-</li>
+        <div class="search-header">
 
-</ul>
+            <input
+                type="text"
+                placeholder="Pesquisar produtos...">
 
-</nav>
+            <button>
 
-<div class="header-actions">
+                <i class="bi bi-search"></i>
 
-<button id="searchBtn">
+            </button>
 
-🔍
+        </div>
 
-</button>
+        <!-- Navegação -->
 
-<button id="favoriteBtn">
+        <nav id="menu">
 
-❤
+            <ul>
 
-<span id="favoriteCount">
+                <li><a href="#">Início</a></li>
 
-0
+                <li><a href="#">Categorias</a></li>
 
-</span>
+                <li><a href="#">Promoções</a></li>
 
-</button>
+                <li><a href="#">Vender</a></li>
 
-<button id="cartBtn">
+                <li><a href="#">Contato</a></li>
 
-🛒
+            </ul>
 
-<span id="cartCount">
+        </nav>
 
-0
+        <!-- Ícones -->
 
-</span>
+        <div class="header-icons">
 
-</button>
+            <button>
 
-<button id="loginBtn">
+                <i class="bi bi-heart"></i>
 
-Entrar
+                <span>0</span>
 
-</button>
+            </button>
 
-<div id="perfilUsuario">
+            <button>
 
-<img id="fotoPerfil"
-src="assets/user.png"
-alt="Usuário">
+                <i class="bi bi-cart3"></i>
 
-<span id="nomeUsuario">
+                <span>0</span>
 
-Visitante
+            </button>
 
-</span>
+            <button>
 
-</div>
+                <i class="bi bi-bell"></i>
 
-</div>
+            </button>
 
-</div>
+            <div class="user-menu">
+
+                <img
+                src="assets/user.png"
+                alt="Usuário">
+
+                <span>Entrar</span>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </header>
 
