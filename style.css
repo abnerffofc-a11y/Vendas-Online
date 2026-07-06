@@ -2045,3 +2045,189 @@ select,
     color:#fff;
 
 }
+
+/* =====================================================
+   PAINEL PRINCIPAL
+===================================================== */
+
+.painel-principal{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:99999;
+
+    pointer-events:none;
+
+}
+
+.painel-principal.ativo{
+
+    pointer-events:auto;
+
+}
+
+.painel-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    opacity:0;
+
+    transition:.3s;
+
+}
+
+.painel-principal.ativo .painel-overlay{
+
+    opacity:1;
+
+}
+
+.painel{
+
+    position:absolute;
+
+    top:0;
+
+    left:-340px;
+
+    width:320px;
+
+    max-width:90%;
+
+    height:100%;
+
+    background:#fff;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.20);
+
+    transition:.35s;
+
+    overflow-y:auto;
+
+}
+
+.painel-principal.ativo .painel{
+
+    left:0;
+
+}
+
+/* HEADER */
+
+.painel-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:20px;
+
+    background:#2563EB;
+
+    color:#fff;
+
+}
+
+.painel-header img{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    background:#fff;
+
+}
+
+.painel-header h3{
+
+    margin:0;
+
+    font-size:18px;
+
+}
+
+.painel-header p{
+
+    margin:5px 0 0;
+
+    font-size:13px;
+
+    opacity:.9;
+
+}
+
+#fecharPainel{
+
+    margin-left:auto;
+
+    background:none;
+
+    color:#fff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+/* MENU */
+
+.painel-menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:15px;
+
+}
+
+.painel-menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 16px;
+
+    border-radius:12px;
+
+    color:#334155;
+
+    text-decoration:none;
+
+    transition:.25s;
+
+}
+
+.painel-menu a:hover{
+
+    background:#EFF6FF;
+
+    color:#2563EB;
+
+}
+
+.painel-menu i{
+
+    font-size:20px;
+
+    width:24px;
+
+    text-align:center;
+
+}
