@@ -529,3 +529,136 @@ nav ul{
 }
 
 }
+/* ==========================================
+   HEADER RESPONSIVO
+========================================== */
+
+@media (max-width:992px){
+
+    .menu-toggle{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+    }
+
+    nav{
+
+        position:fixed;
+
+        top:0;
+
+        left:-100%;
+
+        width:280px;
+
+        height:100vh;
+
+        background:#ffffff;
+
+        box-shadow:5px 0 30px rgba(0,0,0,.15);
+
+        transition:.35s;
+
+        z-index:99999;
+
+        padding-top:90px;
+
+    }
+
+    nav.active{
+
+        left:0;
+
+    }
+
+    nav ul{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        padding:0 25px;
+
+        gap:25px;
+
+    }
+
+    nav a{
+
+        font-size:18px;
+
+    }
+
+    .search-header{
+
+        display:none;
+
+    }
+
+    .header-container{
+
+        height:75px;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .header-icons{
+
+        gap:8px;
+
+    }
+
+    .header-icons button{
+
+        width:42px;
+
+        height:42px;
+
+        font-size:18px;
+
+    }
+
+    .user-menu span{
+
+        display:none;
+
+    }
+
+    .logo h2{
+
+        display:none;
+
+    }
+
+}
+
+@media (max-width:480px){
+
+    .header-container{
+
+        gap:10px;
+
+    }
+
+    .header-icons{
+
+        gap:5px;
+
+    }
+
+    .header-icons button{
+
+        width:38px;
+
+        height:38px;
+
+    }
+
+}
