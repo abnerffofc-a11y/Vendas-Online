@@ -662,3 +662,13 @@ nav ul{
     }
 
 }
+
+@media (max-width:768px){
+
+    .painel{
+
+        width:280px;
+
+    }
+
+}
