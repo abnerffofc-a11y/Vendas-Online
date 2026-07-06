@@ -137,9 +137,9 @@ button{
 
 }
 
-/* ==========================================
+/* =====================================================
    HEADER
-========================================== */
+===================================================== */
 
 header{
 
@@ -147,29 +147,35 @@ header{
 
     top:0;
 
+    left:0;
+
     width:100%;
 
     background:#ffffff;
 
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 
-    z-index:999;
+    z-index:9999;
 
 }
 
-header .container{
+.header-container{
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
 
-    height:80px;
+    justify-content:space-between;
+
+    gap:25px;
+
+    height:85px;
 
 }
 
-/* LOGO */
+/* ===========================
+   LOGO
+=========================== */
 
 .logo{
 
@@ -178,6 +184,8 @@ header .container{
     align-items:center;
 
     gap:12px;
+
+    min-width:max-content;
 
 }
 
@@ -197,21 +205,31 @@ header .container{
 
 }
 
-/* MENU */
+/* ===========================
+   MENU
+=========================== */
+
+nav{
+
+    flex:1;
+
+}
 
 nav ul{
 
     display:flex;
 
-    gap:30px;
+    justify-content:center;
+
+    gap:28px;
 
 }
 
 nav a{
 
-    font-size:15px;
+    color:#334155;
 
-    font-weight:500;
+    font-weight:600;
 
     transition:.3s;
 
@@ -223,59 +241,119 @@ nav a:hover{
 
 }
 
-/* AÇÕES */
+/* ===========================
+   PESQUISA
+=========================== */
 
-.header-actions{
+.search-header{
+
+    flex:1.2;
 
     display:flex;
 
     align-items:center;
 
-    gap:15px;
+    background:#f1f5f9;
 
-}
+    border-radius:50px;
 
-.header-actions button{
+    overflow:hidden;
 
-    background:#2563eb;
-
-    color:#fff;
-
-    padding:10px 18px;
-
-    border-radius:10px;
+    border:2px solid transparent;
 
     transition:.3s;
 
 }
 
-.header-actions button:hover{
+.search-header:focus-within{
 
-    transform:translateY(-2px);
-
-    background:#1d4ed8;
+    border-color:#2563eb;
 
 }
 
-#favoriteBtn,
-#cartBtn{
+.search-header input{
+
+    flex:1;
+
+    border:none;
+
+    background:transparent;
+
+    padding:15px 20px;
+
+    font-size:15px;
+
+    outline:none;
+
+}
+
+.search-header button{
+
+    width:60px;
+
+    height:52px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-size:18px;
+
+}
+
+/* ===========================
+   ÍCONES
+=========================== */
+
+.header-icons{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.header-icons button{
 
     position:relative;
 
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:#f8fafc;
+
+    color:#334155;
+
+    font-size:20px;
+
+    transition:.3s;
+
 }
 
-#favoriteCount,
-#cartCount{
+.header-icons button:hover{
+
+    background:#2563eb;
+
+    color:#fff;
+
+}
+
+.header-icons span{
 
     position:absolute;
 
-    top:-8px;
+    top:-5px;
 
-    right:-8px;
+    right:-5px;
 
-    width:22px;
+    width:20px;
 
-    height:22px;
+    height:20px;
 
     border-radius:50%;
 
@@ -283,7 +361,7 @@ nav a:hover{
 
     color:#fff;
 
-    font-size:12px;
+    font-size:11px;
 
     display:flex;
 
@@ -293,9 +371,11 @@ nav a:hover{
 
 }
 
-/* PERFIL */
+/* ===========================
+   USUÁRIO
+=========================== */
 
-#perfilUsuario{
+.user-menu{
 
     display:flex;
 
@@ -303,13 +383,27 @@ nav a:hover{
 
     gap:10px;
 
+    cursor:pointer;
+
+    padding:8px 12px;
+
+    border-radius:30px;
+
+    transition:.3s;
+
 }
 
-#perfilUsuario img{
+.user-menu:hover{
 
-    width:45px;
+    background:#f1f5f9;
 
-    height:45px;
+}
+
+.user-menu img{
+
+    width:42px;
+
+    height:42px;
 
     border-radius:50%;
 
@@ -317,11 +411,43 @@ nav a:hover{
 
 }
 
-#nomeUsuario{
+.user-menu span{
 
-    font-size:14px;
+    position:static;
+
+    width:auto;
+
+    height:auto;
+
+    background:none;
+
+    color:#334155;
+
+    font-size:15px;
 
     font-weight:600;
+
+}
+
+/* ===========================
+   MENU MOBILE
+=========================== */
+
+.menu-toggle{
+
+    display:none;
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+    font-size:28px;
 
 }
 /* =====================================================
