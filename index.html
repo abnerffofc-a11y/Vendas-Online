@@ -1,121 +1,1011 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A&A Marketplace</title>
-<link rel="stylesheet" href="style.css">
+
+<title>A&A Digital Store</title>
+
+<meta name="description" content="Marketplace para compra e venda de contas, jogos, gift cards e produtos digitais.">
+
+<meta name="keywords" content="Marketplace, Contas, Jogos, Free Fire, Gift Card, Produtos Digitais">
+
+<meta name="author" content="A&A Digital Store">
+
+<meta name="theme-color" content="#111827">
+
+<link rel="icon" href="assets/logo.png">
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="stylesheet" href="css/responsive.css">
+
+<link rel="stylesheet" href="css/animations.css">
+
 </head>
 
 <body>
 
-<!-- CAPA -->
-<section id="capa" class="hero">
-  <h1>Bem-vindo ao A&A Marketplace</h1>
-  <p>Compre e venda na sua cidade de forma rápida e simples.</p>
-</section>
+<div id="loader">
 
-<!-- LOGIN -->
-<section id="login" class="container">
-  <h2>🔐 Login / Cadastro</h2>
-
-  <p id="status-login">Você não está logado</p>
-
-  <input id="email" type="email" placeholder="Email">
-<input id="senha" type="password" placeholder="Senha">
-
-<button onclick="entrar()">Entrar</button>
-<button onclick="cadastrar()">Cadastrar</button>
-<button onclick="sair()">Sair</button>
-</section>
-
-<!-- APP (SÓ QUANDO LOGADO) -->
-<div id="app" style="display:none;">
-
-  <section id="perfil-usuario" style="display:none;">
-  <img id="foto-perfil" style="width:100px;height:100px;border-radius:50%">
-  <input id="nome-perfil">
-  <p>Email: <span id="email-perfil"></span></p>
-  </section>
-  
-  <section id="perfil" class="container">
-
-  <h2>👤 Meu Perfil</h2>
-
-  <img id="foto-perfil" src="https://via.placeholder.com/100"
-       style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
-
-  <br><br>
-
-  <input id="nome-perfil" placeholder="Seu nome">
-
-  <p>Email: <span id="email-perfil"></span></p>
-
-  <p>📊 Anúncios: <span id="qtd-anuncios">0</span></p>
-
-  <button onclick="salvarPerfil()">Salvar Perfil</button>
-
-  </section>
-
-  <!-- HEADER -->
-  <header>
-    <h2>A&A Marketplace</h2>
-
-    <div id="perfil-usuario" style="display:none;">
-  <p>👤 Logado como: <span id="user-email"></span></p>
-
-  <p>📊 Meus anúncios: <span id="qtd-anuncios">0</span></p>
-
-  <button onclick="sair()">🚪 Sair</button>
-    </div>
-
-    <nav>
-      <a href="#" onclick="irPara('anuncios')">Anúncios</a>
-      <a href="#" onclick="irPara('anunciar')">Anunciar</a>
-      <a href="#" onclick="irPara('meus-anuncios')">Meus Anúncios</a>
-      <a href="#" onclick="irPara('favoritos')">Favoritos</a>
-    </nav>
-  </header>
-
-  <!-- ANÚNCIOS -->
-  <section id="anuncios">
-    <h2>🛒 Anúncios</h2>
-
-    <!-- filtros aqui -->
-    <div class="filtros"></div>
-
-    <div id="lista-anuncios"></div>
-  </section>
-
-  <!-- PUBLICAR -->
-  <section id="anunciar">
-    <h2>📢 Publicar Anúncio</h2>
-
-    <form id="form-anuncio">
-      <input id="nome" placeholder="Nome">
-      <input id="preco" placeholder="Preço">
-      <input id="cidade" placeholder="Cidade">
-      <input id="whatsapp" placeholder="WhatsApp">
-      <textarea id="descricao" placeholder="Descrição"></textarea>
-
-      <button type="submit">Publicar</button>
-    </form>
-  </section>
-
-  <!-- MEUS -->
-  <section id="meus-anuncios">
-    <h2>👤 Meus Anúncios</h2>
-    <div id="lista-meus-anuncios"></div>
-  </section>
-
-  <!-- FAVORITOS -->
-  <section id="favoritos">
-    <h2>❤️ Favoritos</h2>
-    <div id="lista-favoritos"></div>
-  </section>
+<div class="spinner"></div>
 
 </div>
 
-<script type="module" src="script.js"></script>
+<header>
+
+<div class="container">
+
+<div class="logo">
+
+<img src="assets/logo.png" alt="Logo">
+
+<h2>A&A Digital Store</h2>
+
+</div>
+
+<nav>
+
+<ul>
+
+<li>
+<a href="#">Início</a>
+</li>
+
+<li>
+<a href="#">Categorias</a>
+</li>
+
+<li>
+<a href="#">Promoções</a>
+</li>
+
+<li>
+<a href="#">Vender</a>
+</li>
+
+<li>
+<a href="#">Contato</a>
+</li>
+
+</ul>
+
+</nav>
+
+<div class="header-actions">
+
+<button id="searchBtn">
+
+🔍
+
+</button>
+
+<button id="favoriteBtn">
+
+❤
+
+<span id="favoriteCount">
+
+0
+
+</span>
+
+</button>
+
+<button id="cartBtn">
+
+🛒
+
+<span id="cartCount">
+
+0
+
+</span>
+
+</button>
+
+<button id="loginBtn">
+
+Entrar
+
+</button>
+
+<div id="perfilUsuario">
+
+<img id="fotoPerfil"
+src="assets/user.png"
+alt="Usuário">
+
+<span id="nomeUsuario">
+
+Visitante
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+<main>
+  <!-- ===================================== -->
+<!-- HERO -->
+<!-- ===================================== -->
+
+<section class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+
+        <div class="hero-left">
+
+            <span class="hero-tag">
+                🔥 Marketplace Gamer Nº1
+            </span>
+
+            <h1>
+                Compre e venda produtos digitais
+                com segurança.
+            </h1>
+
+            <p>
+                Contas, Gift Cards, Skins, Diamantes,
+                Serviços, Jogos, Coins e muito mais.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="btn btn-primary">
+                    Comprar Agora
+                </a>
+
+                <a href="#" class="btn btn-secondary">
+                    Quero Vender
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-right">
+
+            <img
+                src="assets/banner.png"
+                alt="Banner Principal"
+                id="bannerPrincipal">
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- PESQUISA -->
+<!-- ===================================== -->
+
+<section class="search-section">
+
+    <div class="container">
+
+        <h2>
+            O que você procura hoje?
+        </h2>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Pesquisar produtos...">
+
+            <select id="categoriaPesquisa">
+
+                <option value="">
+                    Todas categorias
+                </option>
+
+                <option>
+                    Contas
+                </option>
+
+                <option>
+                    Jogos
+                </option>
+
+                <option>
+                    Gift Cards
+                </option>
+
+                <option>
+                    Serviços
+                </option>
+
+                <option>
+                    Diamantes
+                </option>
+
+            </select>
+
+            <button id="btnPesquisar">
+
+                Pesquisar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- BENEFÍCIOS -->
+<!-- ===================================== -->
+
+<section class="beneficios">
+
+    <div class="container">
+
+        <div class="beneficio-card">
+
+            <h3>🔒 Compra Segura</h3>
+
+            <p>
+                Proteção para compradores e vendedores.
+            </p>
+
+        </div>
+
+        <div class="beneficio-card">
+
+            <h3>⚡ Entrega Rápida</h3>
+
+            <p>
+                Produtos digitais entregues rapidamente.
+            </p>
+
+        </div>
+
+        <div class="beneficio-card">
+
+            <h3>💬 Suporte</h3>
+
+            <p>
+                Atendimento sempre que precisar.
+            </p>
+
+        </div>
+
+        <div class="beneficio-card">
+
+            <h3>⭐ Avaliações</h3>
+
+            <p>
+                Negocie com vendedores confiáveis.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- ESTATÍSTICAS -->
+<!-- ===================================== -->
+
+<section class="estatisticas">
+
+    <div class="container">
+
+        <div class="numero">
+
+            <h2 id="usuariosTotal">
+
+                0
+
+            </h2>
+
+            <span>
+                Usuários
+            </span>
+
+        </div>
+
+        <div class="numero">
+
+            <h2 id="anunciosTotal">
+
+                0
+
+            </h2>
+
+            <span>
+                Anúncios
+            </span>
+
+        </div>
+
+        <div class="numero">
+
+            <h2 id="vendasTotal">
+
+                0
+
+            </h2>
+
+            <span>
+                Vendas
+            </span>
+
+        </div>
+
+        <div class="numero">
+
+            <h2 id="avaliacoesTotal">
+
+                0
+
+            </h2>
+
+            <span>
+                Avaliações
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ===================================== -->
+<!-- CATEGORIAS -->
+<!-- ===================================== -->
+
+<section class="categorias">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Explorar Categorias</h2>
+
+            <a href="#">Ver todas →</a>
+
+        </div>
+
+        <div class="categorias-grid">
+
+            <div class="categoria-card">
+                <div class="categoria-icon">🎮</div>
+                <h3>Contas</h3>
+                <p>Free Fire, Valorant, LoL e mais</p>
+            </div>
+
+            <div class="categoria-card">
+                <div class="categoria-icon">💎</div>
+                <h3>Diamantes</h3>
+                <p>Recargas rápidas</p>
+            </div>
+
+            <div class="categoria-card">
+                <div class="categoria-icon">🎁</div>
+                <h3>Gift Cards</h3>
+                <p>Google Play, Steam e outros</p>
+            </div>
+
+            <div class="categoria-card">
+                <div class="categoria-icon">🕹️</div>
+                <h3>Jogos</h3>
+                <p>PC, Mobile e Console</p>
+            </div>
+
+            <div class="categoria-card">
+                <div class="categoria-icon">⚙️</div>
+                <h3>Serviços</h3>
+                <p>Upar conta, coaching e mais</p>
+            </div>
+
+            <div class="categoria-card">
+                <div class="categoria-icon">📱</div>
+                <h3>Aplicativos</h3>
+                <p>Assinaturas e licenças</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- PRODUTOS EM DESTAQUE -->
+<!-- ===================================== -->
+
+<section class="produtos-destaque">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>🔥 Produtos em Destaque</h2>
+
+            <a href="#">Ver todos →</a>
+
+        </div>
+
+        <div id="gridProdutos" class="produtos-grid">
+
+            <!-- Produto 1 -->
+
+            <article class="produto-card">
+
+                <span class="badge desconto">
+                    -20%
+                </span>
+
+                <button class="favorito-btn">
+                    ❤
+                </button>
+
+                <img
+                    src="assets/produtos/produto1.jpg"
+                    alt="Produto">
+
+                <div class="produto-info">
+
+                    <h3>
+                        Conta Free Fire Veterana
+                    </h3>
+
+                    <p class="categoria">
+                        Contas
+                    </p>
+
+                    <div class="precos">
+
+                        <span class="preco-antigo">
+                            R$ 500,00
+                        </span>
+
+                        <span class="preco">
+                            R$ 399,90
+                        </span>
+
+                    </div>
+
+                    <div class="acoes">
+
+                        <button class="btn-comprar">
+                            Comprar
+                        </button>
+
+                        <button class="btn-detalhes">
+                            Ver Detalhes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            <!-- Produto 2 -->
+
+            <article class="produto-card">
+
+                <span class="badge novo">
+                    Novo
+                </span>
+
+                <button class="favorito-btn">
+                    ❤
+                </button>
+
+                <img
+                    src="assets/produtos/produto2.jpg"
+                    alt="Produto">
+
+                <div class="produto-info">
+
+                    <h3>
+                        Gift Card Google Play
+                    </h3>
+
+                    <p class="categoria">
+                        Gift Card
+                    </p>
+
+                    <div class="precos">
+
+                        <span class="preco">
+                            R$ 95,00
+                        </span>
+
+                    </div>
+
+                    <div class="acoes">
+
+                        <button class="btn-comprar">
+                            Comprar
+                        </button>
+
+                        <button class="btn-detalhes">
+                            Ver Detalhes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            <!-- Os próximos produtos serão adicionados automaticamente pelo Firebase -->
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- ÁREA DINÂMICA DOS ANÚNCIOS -->
+<!-- ===================================== -->
+
+<section class="ultimos-anuncios">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>🆕 Últimos Anúncios</h2>
+
+        </div>
+
+        <div id="listaAnuncios">
+
+            <!-- O JavaScript carregará os anúncios aqui -->
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ===================================== -->
+<!-- OFERTAS RELÂMPAGO -->
+<!-- ===================================== -->
+
+<section class="ofertas-relampago">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>⚡ Ofertas Relâmpago</h2>
+
+            <div id="contadorOferta" class="contador">
+
+                <span>02</span> :
+                <span>15</span> :
+                <span>48</span>
+
+            </div>
+
+        </div>
+
+        <div class="produtos-grid" id="ofertasGrid">
+
+            <!-- Produtos adicionados pelo JavaScript -->
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- MAIS VENDIDOS -->
+<!-- ===================================== -->
+
+<section class="mais-vendidos">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>🏆 Mais Vendidos</h2>
+
+            <a href="#">Ver ranking</a>
+
+        </div>
+
+        <div id="maisVendidos" class="produtos-grid">
+
+            <!-- Firebase -->
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- RECOMENDADOS -->
+<!-- ===================================== -->
+
+<section class="recomendados">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>⭐ Recomendados para você</h2>
+
+        </div>
+
+        <div id="recomendadosGrid" class="produtos-grid">
+
+            <!-- JavaScript -->
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- BANNER PROMOCIONAL -->
+<!-- ===================================== -->
+
+<section class="banner-promocional">
+
+    <div class="container">
+
+        <div class="banner-box">
+
+            <div>
+
+                <h2>Ganhe destaque para seus anúncios</h2>
+
+                <p>
+                    Venda mais rápido promovendo seus produtos.
+                </p>
+
+                <button class="btn-primary">
+
+                    Quero Anunciar
+
+                </button>
+
+            </div>
+
+            <img
+                src="assets/banner-vendedor.png"
+                alt="Banner">
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- DEPOIMENTOS -->
+<!-- ===================================== -->
+
+<section class="depoimentos">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>💬 O que nossos clientes dizem</h2>
+
+        </div>
+
+        <div class="depoimentos-grid">
+
+            <div class="depoimento">
+
+                <img src="assets/user.png">
+
+                <h3>Lucas Silva</h3>
+
+                <span>★★★★★</span>
+
+                <p>
+
+                    Site excelente, comprei minha conta com total segurança.
+
+                </p>
+
+            </div>
+
+            <div class="depoimento">
+
+                <img src="assets/user.png">
+
+                <h3>Mariana Souza</h3>
+
+                <span>★★★★★</span>
+
+                <p>
+
+                    Muito fácil anunciar e vender. Recomendo.
+
+                </p>
+
+            </div>
+
+            <div class="depoimento">
+
+                <img src="assets/user.png">
+
+                <h3>Pedro Henrique</h3>
+
+                <span>★★★★★</span>
+
+                <p>
+
+                    Atendimento rápido e plataforma muito bonita.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- CHAMADA PARA VENDEDORES -->
+<!-- ===================================== -->
+
+<section class="vendedor">
+
+    <div class="container">
+
+        <div class="vendedor-box">
+
+            <h2>
+
+                Quer vender seus produtos digitais?
+
+            </h2>
+
+            <p>
+
+                Cadastre-se gratuitamente e alcance milhares de compradores.
+
+            </p>
+
+            <button id="btnAnunciarAgora" class="btn-primary">
+
+                Começar Agora
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================== -->
+<!-- NEWSLETTER -->
+<!-- ===================================== -->
+
+<section class="newsletter">
+
+    <div class="container">
+
+        <h2>
+
+            Receba ofertas exclusivas
+
+        </h2>
+
+        <p>
+
+            Cadastre seu e-mail e fique por dentro das promoções.
+
+        </p>
+
+        <form id="newsletterForm">
+
+            <input
+                type="email"
+                placeholder="Seu e-mail">
+
+            <button>
+
+                Inscrever-se
+
+            </button>
+
+        </form>
+
+    </div>
+
+  <!-- ===================================== -->
+<!-- RODAPÉ -->
+<!-- ===================================== -->
+
+</main>
+
+<footer class="footer">
+
+    <div class="container footer-grid">
+
+        <div class="footer-col">
+
+            <h2>A&A Digital Store</h2>
+
+            <p>
+                Marketplace especializado em produtos digitais,
+                contas de jogos, gift cards, serviços e muito mais.
+            </p>
+
+        </div>
+
+        <div class="footer-col">
+
+            <h3>Institucional</h3>
+
+            <ul>
+
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Quem Somos</a></li>
+                <li><a href="#">Trabalhe Conosco</a></li>
+                <li><a href="#">Contato</a></li>
+
+            </ul>
+
+        </div>
+
+        <div class="footer-col">
+
+            <h3>Ajuda</h3>
+
+            <ul>
+
+                <li><a href="#">Central de Ajuda</a></li>
+                <li><a href="#">Como Comprar</a></li>
+                <li><a href="#">Como Vender</a></li>
+                <li><a href="#">Perguntas Frequentes</a></li>
+
+            </ul>
+
+        </div>
+
+        <div class="footer-col">
+
+            <h3>Legal</h3>
+
+            <ul>
+
+                <li><a href="#">Política de Privacidade</a></li>
+                <li><a href="#">Termos de Uso</a></li>
+                <li><a href="#">Cookies</a></li>
+                <li><a href="#">Segurança</a></li>
+
+            </ul>
+
+        </div>
+
+        <div class="footer-col">
+
+            <h3>Redes Sociais</h3>
+
+            <div class="social">
+
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="Instagram">📸</a>
+                <a href="#" title="TikTok">🎵</a>
+                <a href="#" title="YouTube">▶️</a>
+                <a href="#" title="Discord">🎮</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        <p>
+
+            © 2026 A&A Digital Store • Todos os direitos reservados.
+
+        </p>
+
+    </div>
+
+</footer>
+
+<!-- ===================================== -->
+<!-- MODAL DE LOGIN -->
+<!-- ===================================== -->
+
+<div id="modalLogin" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close-modal">&times;</span>
+
+        <h2>Entrar</h2>
+
+        <form id="loginForm">
+
+            <input
+                type="email"
+                placeholder="Seu e-mail"
+                required>
+
+            <input
+                type="password"
+                placeholder="Sua senha"
+                required>
+
+            <button type="submit">
+
+                Entrar
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ===================================== -->
+<!-- BOTÃO VOLTAR AO TOPO -->
+<!-- ===================================== -->
+
+<button id="btnTopo">
+
+    ↑
+
+</button>
+
+<!-- ===================================== -->
+<!-- SCRIPTS -->
+<!-- ===================================== -->
+
+<script src="js/firebase.js"></script>
+
+<script src="js/auth.js"></script>
+
+<script src="js/anuncios.js"></script>
+
+<script src="js/favoritos.js"></script>
+
+<script src="js/carrinho.js"></script>
+
+<script src="js/pesquisa.js"></script>
+
+<script src="js/ui.js"></script>
+
+<script src="js/app.js"></script>
+
 </body>
-</html>
+
+  </html>
+</section>
